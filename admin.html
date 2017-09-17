@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Admin - Melazebub</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="./src/handlebars-v4.0.10.js"></script>
+    <script src="./src/graphql_admin.js"></script>
+    <script>
+    $(document).ready(function(){
+      getIngridiensAndUnites();
+      $('#create-recipe').click(function(){
+        createRecipe();
+      });
+    });
+    </script>
+  </head>
+  <body>
+<div class="">
+  <h4> Ny opskrift:</h4>
+  <label for="">navn</label>
+  <input id='recipe-name' type="text">
+
+<div id="ingredienser_wrapper">
+
+</div>
+
+<label for="">instruktioner</label>
+  <input id='recipe-instructions' type="text">
+  <button id='create-recipe'>Create</button>
+</div>
+<div id="create-recipe-reply"></div>
+
+<script id="makeIngridiensForm" type="text/x-handlebars-template">
+<label for="">ingrediensers</label>
+<select class="type" name="type">
+  <option value="">ingridiens</option>
+{{#each data.allIngredienseTypes}}
+  <option value="{{id}}">{{name}}</option>
+{{/each}}
+</select>
+<input type="number" name="amount" value=""placeholder="antal">
+    <select class="unit" name="unit">
+      <option value="">enhed</option>
+      {{#each data.allUnitses}}
+        <option value="{{id}}">{{name}}</option>
+      {{/each}}
+    </select>
+
+</script>
+
+  </body>
+</html>

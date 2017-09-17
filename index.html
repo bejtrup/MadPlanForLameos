@@ -1,28 +1,46 @@
 <!DOCTYPE html>
+
 <html>
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale:1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Mealzebub</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="./src/handlebars-v4.0.10.js"></script>
     <script src="./src/graphql.js"></script>
-
     <script>
     $(document).ready(function(){
-      fetchAllPokemons();
-      $('#create-pokemon').click(function(){
-        createPokemon()
-      });
+      fetchAllRecipes();
     });
     </script>
   </head>
   <body>
-  <h1>Pokedex - jQuery GraphQL Example</h1>
-
-  <div>
-    New Pokemon:
-    <input id='pokemon-name' type="text">
-    <button id='create-pokemon'>Create</button>
-    <ul id='pokemon-list'>
-    </ul>
-
+  <h1>Mealzebub</h1>
+  <div class="body">
+    <h2 id="pageHeadline">Vælg ret til 1. dag</h2>
+    <div id='recipe-list'></div>
+    <div id="grocery-list"></div>
   </div>
+
+<script id="previewRecipes" type="text/x-handlebars-template">
+{{#each allOpskrifts}}
+ {{#unless inFoodplan}}
+  <div class="previewRecipe">
+    <h3>{{name}}</h3>
+    {{#each ingrediensers}}
+      <p>{{ingredienseTypes.0.name}} </p>
+    {{/each}}
+    <button onclick="addToFoodPlan('{{id}}');">VÆLG</button>
+  </div>
+  {{/unless}}
+{{/each}}
+</script>
+
+<script id="groceryListItem" type="text/x-handlebars-template">
+{{#each this}}
+    <h3>{{name}} {{amount}} af {{bulk}} {{unit}}</h3>
+{{/each}}
+</script>
+
   </body>
 </html>
