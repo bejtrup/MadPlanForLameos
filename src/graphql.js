@@ -17,6 +17,7 @@ function fetchAllRecipes() {
 
 function initPage(){
   makePreviewRecipeList();
+
 }
 
 function makePreviewRecipeList(){
@@ -26,13 +27,6 @@ function makePreviewRecipeList(){
 }
 
 function addToFoodPlan(recipeId){
-  function idInArray(arr,value){
-    for(var i = 0; i < arr.length; i++) {
-      if(arr[i].id === value) {
-        return i;
-      }
-    }
-  }
   var indexOfId = idInArray(allRecipes.allOpskrifts, recipeId);
   allRecipes.allOpskrifts[indexOfId].ingrediensers.forEach(function (v) {
      var indexOfgros = idInArray(groceryList, v.ingredienseTypes[0].id);
@@ -47,15 +41,41 @@ function addToFoodPlan(recipeId){
   var compiledTemplate = Handlebars.compile( $("#groceryListItem").html() );
   var generatedTemplate = compiledTemplate(groceryList);
   $("#grocery-list").html(generatedTemplate);
-
-
   allRecipes.allOpskrifts[indexOfId].inFoodplan = true;
   foodPlan.push(allRecipes.allOpskrifts[indexOfId]);
   updatePageHeadline();
-
   newOrderArray();
   makePreviewRecipeList();
+  makeCarousel();
+  //compareActiveRecipeAndGroceryList();
   return false;
+}
+
+function compareActiveRecipeAndGroceryList(){
+  var activeRecipeID = "cj7meq5z1poeu0172wb99aiyi";
+  var index = idInArray(allRecipes.allOpskrifts, activeRecipeID);
+  allRecipes.allOpskrifts[index].ingrediensers.forEach(function(ing){
+    if($("#"+ing.ingredienseTypes[0].id).length > 0 ){
+      $("#"+ing.ingredienseTypes[0].id).find("span").after(ing.amount);
+    } else {
+      // LAV HANDLEBAR
+      $("#grocery-list").append("<h3>"+ing.ingredienseTypes[0].name+"</h3>")
+    }
+  });
+
+}
+
+function updatePageHeadline(){
+  var H = "Vælg ret til "+(foodPlan.length+1)+". dag";
+  $("#pageHeadline").text(H);
+  return false;
+}
+
+function makeCarousel(){
+  $("div#Carousel").addClass("Carousel");
+  $("#recipe-list").itemslide({
+      duration: 500,
+  });
 }
 
 function newOrderArray(){
@@ -77,10 +97,10 @@ function SortByGroceryMatch(a, b){
   var bName = b.groceryMatch;
   return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
 }
-
-
-function updatePageHeadline(){
-  var H = "Vælg ret til "+(foodPlan.length+1)+". dag";
-  $("#pageHeadline").text(H);
-  return false;
+function idInArray(arr,value){
+  for(var i = 0; i < arr.length; i++) {
+    if(arr[i].id === value) {
+      return i;
+    }
+  }
 }

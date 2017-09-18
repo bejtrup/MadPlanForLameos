@@ -1,0 +1,62 @@
+html, body {
+  width: 100%;
+  margin: 0;
+}
+
+.Carousel{/*frame*/
+    height:150px;
+    width:100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.recipe-list {
+    /*Add if you want to disable the option of selecting the text while sliding*/
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    width: 100%;
+
+    list-style-type: none;
+    -webkit-transform-style: preserve-3d;
+  	-ms-transform-style: preserve-3d;
+  	transform-style: preserve-3d;
+}
+
+.previewRecipe {
+    float: left;
+    width:90vw;
+    min-width: 250px;
+    height: 150px;
+    color: #fff;
+    font-weight: 300;
+    cursor: pointer;
+    background: #000;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    box-sizing: border-box;
+    overflow: hidden;
+    margin-left: 5vw;
+}
+.Carousel .previewRecipe{
+    margin-left: 0;
+}
+
+
+.itemslide-active
+{/*applied to current active item*/
+    -webkit-transform:  scale(1);
+    -ms-transform:  scale(1);
+    -moz-transform:  scale(1);
+    transform: scale(1);
+}
+
+button {
+  background: red;
+}

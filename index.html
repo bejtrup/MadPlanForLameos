@@ -2,10 +2,12 @@
 
 <html>
   <head>
-    <meta name="viewport" content="width=device-width, initial-scale:1">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
     <title>Mealzebub</title>
+    <link rel="stylesheet" type="text/css" href="src/index.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="./src/itemslide.min.js"></script>
     <script type="text/javascript" src="./src/handlebars-v4.0.10.js"></script>
     <script src="./src/graphql.js"></script>
     <script>
@@ -18,14 +20,16 @@
   <h1>Mealzebub</h1>
   <div class="body">
     <h2 id="pageHeadline">Vælg ret til 1. dag</h2>
-    <div id='recipe-list'></div>
+    <div id="Carousel">
+      <ul id="recipe-list" class="recipe-list"></ul>
+    </div>
     <div id="grocery-list"></div>
   </div>
 
 <script id="previewRecipes" type="text/x-handlebars-template">
 {{#each allOpskrifts}}
  {{#unless inFoodplan}}
-  <div class="previewRecipe">
+  <li id="{{id}}" class="previewRecipe">
     <h3>{{name}}</h3>
     {{#each ingrediensers}}
       <p>{{ingredienseTypes.0.name}} </p>
@@ -38,7 +42,7 @@
 
 <script id="groceryListItem" type="text/x-handlebars-template">
 {{#each this}}
-    <h3>{{name}} {{amount}} af {{bulk}} {{unit}}</h3>
+    <h3 id="{{id}}">{{name}} <span>{{amount}}<span> af {{bulk}} {{unit}}</h3>
 {{/each}}
 </script>
 
