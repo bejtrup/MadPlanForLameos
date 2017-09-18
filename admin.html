@@ -32,21 +32,17 @@
 <div id="create-recipe-reply"></div>
 
 <script id="makeIngridiensForm" type="text/x-handlebars-template">
-<label for="">ingrediensers</label>
-<select class="type" name="type">
-  <option value="">ingridiens</option>
-{{#each data.allIngredienseTypes}}
-  <option value="{{id}}">{{name}}</option>
-{{/each}}
-</select>
-<input type="number" name="amount" value=""placeholder="antal">
-    <select class="unit" name="unit">
-      <option value="">enhed</option>
-      {{#each data.allUnitses}}
-        <option value="{{id}}">{{name}}</option>
-      {{/each}}
-    </select>
-
+<div>
+  <label for="">ingrediensers</label>
+  <select onchange="selectChanged(this);" class="type" name="type">
+    <option value="">ingridiens</option>
+  {{#each data.allIngredienseTypes}}
+    <option value="{{id}}" data-unitid="{{unitses.0.id}}" data-unitname="{{unitses.0.name}}">{{name}}</option>
+  {{/each}}
+  </select>
+  <input type="number" name="amount" value=""placeholder="antal">
+  <p style="display: inline-block; margin:0;" data-unitid="" class="unit"></h4>
+</div>
 </script>
 
   </body>
