@@ -3,13 +3,14 @@ var graphQLEndpoint = 'https://api.graph.cool/simple/v1/cj7jflnup02bp0138ccetefi
 function getIngridiensAndUnites() {
   $.post({
     url: graphQLEndpoint,
-    data: JSON.stringify({ "query": "{ allIngredienseTypes{id name} allUnitses{id name} }" }),
+    data: JSON.stringify({ "query": "{ 	allIngredienseTypes {    id    name    unitses {      id      name    }  }}" }),
     contentType: 'application/json'
   }).done(function(response) {
+    console.log(response);
     var compiledTemplate = Handlebars.compile( $("#makeIngridiensForm").html() );
     var generatedTemplate = compiledTemplate(response);
     for( var i = 0; i <= 10; i++){
-      $("#ingredienser_wrapper").append("<div>"+generatedTemplate+"</div>");
+      $("#ingredienser_wrapper").append(generatedTemplate);
     }
   });
 }
@@ -21,9 +22,8 @@ function createRecipe() {
   $("#ingredienser_wrapper div").each(function(){
       var amount = $(this).find("input").val();
       var typeId = $(this).find('.type option:selected').attr('value');
-      var unitId = $(this).find('.unit option:selected').attr('value');
       if(amount){
-        q += '{amount: '+amount+' ingredienseTypesIds: "'+typeId+'" unitsesIds: "'+unitId+'"},';
+        q += '{amount: '+amount+' ingredienseTypesIds: "'+typeId+'"},';
       }
   });
   q += ']){ id } }'
@@ -35,4 +35,12 @@ function createRecipe() {
   }).done(function(response) {
     $("#create-recipe-reply").append("done");
   });
+}
+
+function selectChanged(elem){
+  var unitid = $(elem).find(':selected').data('unitid');
+  var unitname = $(elem).find(':selected').data('unitname');
+  $(elem).siblings(".unit").text(unitname);
+  $(elem).siblings(".unit").attr("data-unitid",unitid);
+  $(elem).siblings("input").focus();
 }
