@@ -78,6 +78,7 @@ function updatePageHeadline(){
 }
 
 function makeCarousel(){
+  $("li#foodplan").removeClass("hidden");
   $("div#Carousel").addClass("Carousel");
   $("#recipe-list").itemslide({
       start: 1,
