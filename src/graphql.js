@@ -4,6 +4,7 @@ var allRecipes = [];
 var foodPlan = [];
 var groceryList =[];
 
+
 function fetchAllRecipes() {
   $.post({
     url: graphQLEndpoint,
@@ -38,31 +39,36 @@ function addToFoodPlan(recipeId){
        groceryList.push({id: v.ingredienseTypes[0].id, name: v.ingredienseTypes[0].name, amount: v.amount, unit: v.ingredienseTypes[0].unitses[0].shorthand, bulk: v.ingredienseTypes[0].bulk });
      }
   });
-  var compiledTemplate = Handlebars.compile( $("#groceryListItem").html() );
-  var generatedTemplate = compiledTemplate(groceryList);
-  $("#grocery-list").html(generatedTemplate);
   allRecipes.allOpskrifts[indexOfId].inFoodplan = true;
   foodPlan.push(allRecipes.allOpskrifts[indexOfId]);
   updatePageHeadline();
   newOrderArray();
   makePreviewRecipeList();
   makeCarousel();
-  //compareActiveRecipeAndGroceryList();
+  compareActiveRecipeAndGroceryList(allRecipes.allOpskrifts[0].id);
   return false;
 }
 
-function compareActiveRecipeAndGroceryList(){
-  var activeRecipeID = "cj7meq5z1poeu0172wb99aiyi";
-  var index = idInArray(allRecipes.allOpskrifts, activeRecipeID);
-  allRecipes.allOpskrifts[index].ingrediensers.forEach(function(ing){
-    if($("#"+ing.ingredienseTypes[0].id).length > 0 ){
-      $("#"+ing.ingredienseTypes[0].id).find("span").after(ing.amount);
-    } else {
-      // LAV HANDLEBAR
-      $("#grocery-list").append("<h3>"+ing.ingredienseTypes[0].name+"</h3>")
-    }
-  });
+function compareActiveRecipeAndGroceryList(activeRecipeID){
+  var testGroceryList =[];
+  testGroceryList = JSON.parse(JSON.stringify(groceryList));
+  if(activeRecipeID != "foodplan"){
+      var activeRecipeIndex = idInArray(allRecipes.allOpskrifts, activeRecipeID);
 
+      allRecipes.allOpskrifts[activeRecipeIndex].ingrediensers.forEach(function(ing){
+        var testIngId = ing.ingredienseTypes[0].id;
+        var ingrediensersIndex = idInArray(testGroceryList, testIngId);
+        if(ingrediensersIndex != undefined){
+          var newTotalAmount = groceryList[ingrediensersIndex].amount + ing.amount;
+          testGroceryList[ingrediensersIndex].amount = newTotalAmount;
+        } else {
+          testGroceryList.push({ id: ing.ingredienseTypes[0].id, name: ing.ingredienseTypes[0].name, amount:ing.amount,  unit: ing.ingredienseTypes[0].unitses[0].shorthand, bulk: ing.ingredienseTypes[0].bulk , isTested: true});
+        }
+      });
+  }
+  var compiledTemplate = Handlebars.compile( $("#groceryList").html() );
+  var generatedTemplate = compiledTemplate(testGroceryList);
+  $("#grocery-list").html(generatedTemplate);
 }
 
 function updatePageHeadline(){
@@ -74,8 +80,15 @@ function updatePageHeadline(){
 function makeCarousel(){
   $("div#Carousel").addClass("Carousel");
   $("#recipe-list").itemslide({
+      start: 1,
       duration: 500,
   });
+  $("#recipe-list").on('changeActiveIndex', function(e) {
+          //console.log( $("#recipe-list").getActiveIndex() );
+          var activeId = $("li.itemslide-active").attr("id")
+          compareActiveRecipeAndGroceryList(activeId);
+  });
+
 }
 
 function newOrderArray(){

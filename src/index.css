@@ -47,7 +47,9 @@ html, body {
 .Carousel .previewRecipe{
     margin-left: 0;
 }
-
+.previewRecipe p {
+  display: inline-block;
+}
 
 .itemslide-active
 {/*applied to current active item*/
@@ -60,3 +62,5 @@ html, body {
 button {
   background: red;
 }
+
+.isTested{ color: #aaa; }

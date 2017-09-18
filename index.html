@@ -27,6 +27,11 @@
   </div>
 
 <script id="previewRecipes" type="text/x-handlebars-template">
+  <li id="foodplan" class="previewRecipe">
+    <h3>Din aktive mad plan:</h3>
+    <h4>DAG 1: NAVN</h4>
+    <button onclick="">FÆRDIG</button>
+  </li>
 {{#each allOpskrifts}}
  {{#unless inFoodplan}}
   <li id="{{id}}" class="previewRecipe">
@@ -35,14 +40,14 @@
       <p>{{ingredienseTypes.0.name}} </p>
     {{/each}}
     <button onclick="addToFoodPlan('{{id}}');">VÆLG</button>
-  </div>
+  </li>
   {{/unless}}
 {{/each}}
 </script>
 
-<script id="groceryListItem" type="text/x-handlebars-template">
+<script id="groceryList" type="text/x-handlebars-template">
 {{#each this}}
-    <h3 id="{{id}}">{{name}} <span>{{amount}}<span> af {{bulk}} {{unit}}</h3>
+    <h3 id="{{id}}" class="{{#if isTested}}isTested{{/if}}">{{name}} <span>{{amount}}<span> af {{bulk}} {{unit}}</h3>
 {{/each}}
 </script>
 
