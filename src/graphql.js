@@ -67,7 +67,9 @@ function compareActiveRecipeAndGroceryList(activeRecipeID){
           testGroceryList[ingrediensersIndex].leftover = newLeftover;
           testGroceryList[ingrediensersIndex].isTested = true;
         } else {
-          testGroceryList.push({ id: ing.ingredienseTypes[0].id, name: ing.ingredienseTypes[0].name, amount:(ing.amount*persons),  unit: ing.ingredienseTypes[0].unitses[0].shorthand, bulk: ing.ingredienseTypes[0].bulk, leftover: (ing.ingredienseTypes[0].bulk - (ing.amount*persons)) , isAddedToList: true});
+          var leftover = ing.ingredienseTypes[0].bulk - (ing.amount*persons);
+          leftover = leftover > 0 ? leftover : '';
+          testGroceryList.push({ id: ing.ingredienseTypes[0].id, name: ing.ingredienseTypes[0].name, amount:(ing.amount*persons),  unit: ing.ingredienseTypes[0].unitses[0].shorthand, bulk: ing.ingredienseTypes[0].bulk, leftover: leftover, isAddedToList: true});
         }
       });
   }
