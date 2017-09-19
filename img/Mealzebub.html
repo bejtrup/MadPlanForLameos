@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<!-- saved from url=(0063)http://localhost:8888/www/bejtrup.PetProjects/MadPlanForLameos/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <title>Mealzebub</title>
+    <link rel="stylesheet" type="text/css" href="./Mealzebub_files/index.css">
+    <script src="./Mealzebub_files/jquery.min.js"></script>
+    <script type="text/javascript" src="./Mealzebub_files/itemslide.min.js"></script>
+    <script type="text/javascript" src="./Mealzebub_files/handlebars-v4.0.10.js"></script>
+    <script src="./Mealzebub_files/graphql.js"></script>
+    <script>
+    $(document).ready(function(){
+      fetchAllRecipes();
+    });
+    </script>
+  <style id="style-1-cropbar-clipper">/* Copyright 2014 Evernote Corporation. All rights reserved. */
+.en-markup-crop-options {
+    top: 18px !important;
+    left: 50% !important;
+    margin-left: -100px !important;
+    width: 200px !important;
+    border: 2px rgba(255,255,255,.38) solid !important;
+    border-radius: 4px !important;
+}
+
+.en-markup-crop-options div div:first-of-type {
+    margin-left: 0px !important;
+}
+</style></head>
+  <body style="">
+  <h1>Mealzebub</h1>
+  <div class="body">
+    <h2 id="pageHeadline">Vælg ret til 2. dag</h2>
+    <div id="Carousel" class="Carousel">
+      <ul id="recipe-list" class="recipe-list" style="touch-action: pan-y; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); width: 1242.39px; transform: translate3d(15.6016px, 0px, 0px);">
+  <li id="foodplan" class="previewRecipe itemslide-active">
+    <h3>Din aktive mad plan:</h3>
+    <h4>DAG 1: NAVN</h4>
+    <button onclick="">FÆRDIG</button>
+  </li>
+  <li id="cj7ry012g3acy0154hey4vy2s" class="previewRecipe">
+    <h3>Varmrøget laks salat</h3>
+      <p>Varmrøget laks </p>
+      <p>Grønne bønner </p>
+      <p>Salathoved </p>
+      <p>Creme fraiche </p>
+      <p>Agurk </p>
+      <p>Sennep </p>
+      <p>Citron </p>
+      <p>Kartofler </p>
+      <p>Ræddiker </p>
+      <p>Purløg </p>
+    <button onclick="addToFoodPlan(&#39;cj7ry012g3acy0154hey4vy2s&#39;);">VÆLG</button>
+  </li>
+  <li id="cj7rzo8kr5py00163tkepzs65" class="previewRecipe">
+    <h3>Hakkebøf med gnocchi</h3>
+      <p>Hakket oksekød </p>
+      <p>Parmesan </p>
+      <p>Broccoli </p>
+      <p>Rødløg </p>
+      <p>Hvidløg </p>
+      <p>Gnocchi </p>
+      <p>Oregano </p>
+    <button onclick="addToFoodPlan(&#39;cj7rzo8kr5py00163tkepzs65&#39;);">VÆLG</button>
+  </li>
+</ul>
+    </div>
+    <div id="grocery-list">
+    <div id="cj7rak1u40qrq013219jn6hq5" class="groceryListTest  ">
+        <h3>Makrelfilet</h3>
+        <h3><span>300<span> g</span></span></h3>
+        <h3></h3>
+    </div>
+    <div id="cj7rajdpc0pgj0175jchfmsaq" class="groceryListTest  ">
+        <h3>Salathoved</h3>
+        <h3><span>0.5<span> af 1 stk</span></span></h3>
+        <h3>rest: 0.5</h3>
+    </div>
+    <div id="cj7raimz70pfq0175uobgbdo7" class="groceryListTest  ">
+        <h3>Agurk</h3>
+        <h3><span>0.5<span> af 1 stk</span></span></h3>
+        <h3>rest: 0.5</h3>
+    </div>
+    <div id="cj7mcw16vmtq60150b45rd9nl" class="groceryListTest  ">
+        <h3>Æbler</h3>
+        <h3><span>1<span> stk</span></span></h3>
+        <h3></h3>
+    </div>
+    <div id="cj7rakhpp0phd01755tqbh19p" class="groceryListTest  ">
+        <h3>Blåbær</h3>
+        <h3><span>1<span> af 1 bk</span></span></h3>
+        <h3></h3>
+    </div>
+    <div id="cj7ramcz40pj50175kjtjkd99" class="groceryListTest  ">
+        <h3>Tahin</h3>
+        <h3><span>40<span> g</span></span></h3>
+        <h3></h3>
+    </div>
+    <div id="cj7ramqpl0pjq01753883fgfu" class="groceryListTest  ">
+        <h3>Citron</h3>
+        <h3><span>0.5<span> af 1 stk</span></span></h3>
+        <h3>rest: 0.5</h3>
+    </div>
+    <div id="cj7rante00pkk0175f5u42pgx" class="groceryListTest  ">
+        <h3>Rødløg</h3>
+        <h3><span>1<span> af 1 stk</span></span></h3>
+        <h3></h3>
+    </div>
+    <div id="cj7rao92g0pl30175qf4xlld1" class="groceryListTest  ">
+        <h3>Perlebyg</h3>
+        <h3><span>125<span> g</span></span></h3>
+        <h3></h3>
+    </div>
+    <div id="cj7rap8gv0qwo01326b5w4kuf" class="groceryListTest  ">
+        <h3>Hvidløg</h3>
+        <h3><span>1<span> af 10 fed</span></span></h3>
+        <h3>rest: 9</h3>
+    </div>
+</div>
+  </div>
+
+<script id="previewRecipes" type="text/x-handlebars-template">
+  <li id="foodplan" class="previewRecipe hidden">
+    <h3>Din aktive mad plan:</h3>
+    <h4>DAG 1: NAVN</h4>
+    <button onclick="">FÆRDIG</button>
+  </li>
+{{#each allOpskrifts}}
+ {{#unless inFoodplan}}
+  <li id="{{id}}" class="previewRecipe">
+    <h3>{{name}}</h3>
+    {{#each ingrediensers}}
+      <p>{{ingredienseTypes.0.name}} </p>
+    {{/each}}
+    <button onclick="addToFoodPlan('{{id}}');">VÆLG</button>
+  </li>
+  {{/unless}}
+{{/each}}
+</script>
+
+<script id="groceryListTest" type="text/x-handlebars-template">
+{{#each this}}
+    <div id="{{id}}" class="groceryListTest {{#if isTested}}isTested{{/if}} {{#if isAddedToList}}isAddedToList{{/if}}">
+        <h3>{{name}}</h3>
+        <h3><span>{{amount}}<span>{{#if bulk}} af {{bulk}}{{/if}} {{unit}}</h3>
+        <h3>{{#if leftover}}rest: {{leftover}}{{/if}}</h3>
+    </div>
+{{/each}}
+</script>
+
+  
+
+<span style="border-radius: 3px; text-indent: 20px; width: auto; padding: 0px 4px 0px 0px; text-align: center; font-style: normal; font-variant: normal; font-weight: bold; font-stretch: normal; font-size: 11px; line-height: 20px; font-family: &quot;Helvetica Neue&quot;, Helvetica, sans-serif; color: rgb(255, 255, 255); background: url(&quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMzBweCIgd2lkdGg9IjMwcHgiIHZpZXdCb3g9Ii0xIC0xIDMxIDMxIj48Zz48cGF0aCBkPSJNMjkuNDQ5LDE0LjY2MiBDMjkuNDQ5LDIyLjcyMiAyMi44NjgsMjkuMjU2IDE0Ljc1LDI5LjI1NiBDNi42MzIsMjkuMjU2IDAuMDUxLDIyLjcyMiAwLjA1MSwxNC42NjIgQzAuMDUxLDYuNjAxIDYuNjMyLDAuMDY3IDE0Ljc1LDAuMDY3IEMyMi44NjgsMC4wNjcgMjkuNDQ5LDYuNjAxIDI5LjQ0OSwxNC42NjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIxIj48L3BhdGg+PHBhdGggZD0iTTE0LjczMywxLjY4NiBDNy41MTYsMS42ODYgMS42NjUsNy40OTUgMS42NjUsMTQuNjYyIEMxLjY2NSwyMC4xNTkgNS4xMDksMjQuODU0IDkuOTcsMjYuNzQ0IEM5Ljg1NiwyNS43MTggOS43NTMsMjQuMTQzIDEwLjAxNiwyMy4wMjIgQzEwLjI1MywyMi4wMSAxMS41NDgsMTYuNTcyIDExLjU0OCwxNi41NzIgQzExLjU0OCwxNi41NzIgMTEuMTU3LDE1Ljc5NSAxMS4xNTcsMTQuNjQ2IEMxMS4xNTcsMTIuODQyIDEyLjIxMSwxMS40OTUgMTMuNTIyLDExLjQ5NSBDMTQuNjM3LDExLjQ5NSAxNS4xNzUsMTIuMzI2IDE1LjE3NSwxMy4zMjMgQzE1LjE3NSwxNC40MzYgMTQuNDYyLDE2LjEgMTQuMDkzLDE3LjY0MyBDMTMuNzg1LDE4LjkzNSAxNC43NDUsMTkuOTg4IDE2LjAyOCwxOS45ODggQzE4LjM1MSwxOS45ODggMjAuMTM2LDE3LjU1NiAyMC4xMzYsMTQuMDQ2IEMyMC4xMzYsMTAuOTM5IDE3Ljg4OCw4Ljc2NyAxNC42NzgsOC43NjcgQzEwLjk1OSw4Ljc2NyA4Ljc3NywxMS41MzYgOC43NzcsMTQuMzk4IEM4Ljc3NywxNS41MTMgOS4yMSwxNi43MDkgOS43NDksMTcuMzU5IEM5Ljg1NiwxNy40ODggOS44NzIsMTcuNiA5Ljg0LDE3LjczMSBDOS43NDEsMTguMTQxIDkuNTIsMTkuMDIzIDkuNDc3LDE5LjIwMyBDOS40MiwxOS40NCA5LjI4OCwxOS40OTEgOS4wNCwxOS4zNzYgQzcuNDA4LDE4LjYyMiA2LjM4NywxNi4yNTIgNi4zODcsMTQuMzQ5IEM2LjM4NywxMC4yNTYgOS4zODMsNi40OTcgMTUuMDIyLDYuNDk3IEMxOS41NTUsNi40OTcgMjMuMDc4LDkuNzA1IDIzLjA3OCwxMy45OTEgQzIzLjA3OCwxOC40NjMgMjAuMjM5LDIyLjA2MiAxNi4yOTcsMjIuMDYyIEMxNC45NzMsMjIuMDYyIDEzLjcyOCwyMS4zNzkgMTMuMzAyLDIwLjU3MiBDMTMuMzAyLDIwLjU3MiAxMi42NDcsMjMuMDUgMTIuNDg4LDIzLjY1NyBDMTIuMTkzLDI0Ljc4NCAxMS4zOTYsMjYuMTk2IDEwLjg2MywyNy4wNTggQzEyLjA4NiwyNy40MzQgMTMuMzg2LDI3LjYzNyAxNC43MzMsMjcuNjM3IEMyMS45NSwyNy42MzcgMjcuODAxLDIxLjgyOCAyNy44MDEsMTQuNjYyIEMyNy44MDEsNy40OTUgMjEuOTUsMS42ODYgMTQuNzMzLDEuNjg2IiBmaWxsPSIjYmQwODFjIj48L3BhdGg+PC9nPjwvc3ZnPg==&quot;) 3px 50% / 14px 14px no-repeat rgb(189, 8, 28); position: absolute; opacity: 1; z-index: 8675309; display: none; cursor: pointer; border: none; -webkit-font-smoothing: antialiased;">Save</span><span style="width: 24px; height: 24px; background: url(&quot;data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pjxzdmcgd2lkdGg9IjI0cHgiIGhlaWdodD0iMjRweCIgdmlld0JveD0iMCAwIDI0IDI0IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxkZWZzPjxtYXNrIGlkPSJtIj48cmVjdCBmaWxsPSIjZmZmIiB4PSIwIiB5PSIwIiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHJ4PSI2IiByeT0iNiIvPjxyZWN0IGZpbGw9IiMwMDAiIHg9IjUiIHk9IjUiIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgcng9IjEiIHJ5PSIxIi8+PHJlY3QgZmlsbD0iIzAwMCIgeD0iMTAiIHk9IjAiIHdpZHRoPSI0IiBoZWlnaHQ9IjI0Ii8+PHJlY3QgZmlsbD0iIzAwMCIgeD0iMCIgeT0iMTAiIHdpZHRoPSIyNCIgaGVpZ2h0PSI0Ii8+PC9tYXNrPjwvZGVmcz48cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIGZpbGw9IiNmZmYiIG1hc2s9InVybCgjbSkiLz48L3N2Zz4=&quot;) 50% 50% / 14px 14px no-repeat rgba(0, 0, 0, 0.4); position: absolute; opacity: 1; z-index: 8675309; display: none; cursor: pointer; border: none; border-radius: 12px;"></span></body></html>
