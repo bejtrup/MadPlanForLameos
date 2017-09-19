@@ -3,7 +3,7 @@ var graphQLEndpoint = 'https://api.graph.cool/simple/v1/cj7jflnup02bp0138ccetefi
 function getIngridiensAndUnites() {
   $.post({
     url: graphQLEndpoint,
-    data: JSON.stringify({ "query": "{ 	allIngredienseTypes {    id    name    unitses {      id      name    }  }}" }),
+    data: JSON.stringify({ "query": "{ 	allIngredienseTypes(orderBy: name_ASC) {    id    name    unitses {      id      name    }  }}" }),
     contentType: 'application/json'
   }).done(function(response) {
     console.log(response);

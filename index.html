@@ -45,9 +45,13 @@
 {{/each}}
 </script>
 
-<script id="groceryList" type="text/x-handlebars-template">
+<script id="groceryListTest" type="text/x-handlebars-template">
 {{#each this}}
-    <h3 id="{{id}}" class="{{#if isTested}}isTested{{/if}}">{{name}} <span>{{amount}}<span> af {{bulk}} {{unit}}</h3>
+    <div id="{{id}}" class="groceryListTest {{#if isTested}}isTested{{/if}} {{#if isAddedToList}}isAddedToList{{/if}}">
+        <h3>{{name}}</h3>
+        <h3><span>{{amount}}<span>{{#if bulk}} af {{bulk}}{{/if}} {{unit}}</h3>
+        <h3>{{#if leftover}}rest: {{leftover}}{{/if}}</h3>
+    </div>
 {{/each}}
 </script>
 
