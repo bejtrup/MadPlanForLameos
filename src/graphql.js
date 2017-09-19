@@ -41,13 +41,13 @@ function addToFoodPlan(recipeId){
        groceryList.push({id: v.ingredienseTypes[0].id, name: v.ingredienseTypes[0].name, amount: (v.amount*persons), unit: v.ingredienseTypes[0].unitses[0].shorthand, bulk: v.ingredienseTypes[0].bulk, leftover: leftover });
      }
   });
-  foodPlan.push(allRecipes.allOpskrifts[indexOfId]);
+  foodPlan.push({day: (foodPlan.length + 1), recipieid: allRecipes.allOpskrifts[indexOfId].id, name: allRecipes.allOpskrifts[indexOfId].name});
   allRecipes.allOpskrifts[indexOfId].inFoodplan = true;
-  updatePageHeadline();
   newOrderArray();
   makePreviewRecipeList();
   makeCarousel();
   makeGroseryListTest(groceryList);
+  updatePageHeadline();
   return false;
 }
 
@@ -83,7 +83,11 @@ function updatePageHeadline(){
 }
 function makePreviewRecipeList(){
   var compiledTemplate = Handlebars.compile( $("#previewRecipes").html() );
-  var generatedTemplate = compiledTemplate(allRecipes);
+  var arraytosend = [];
+  arraytosend.push(allRecipes);
+  arraytosend.foodPlan = foodPlan;
+  console.log(arraytosend);
+  var generatedTemplate = compiledTemplate(arraytosend);
   $("#recipe-list").html(generatedTemplate);
 }
 function makeGroseryListTest(arr){

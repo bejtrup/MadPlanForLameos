@@ -51,7 +51,10 @@ html, body {
   display: inline-block;
   margin: 4px 0;
 }
-
+.previewRecipe h5 {
+  display: block;
+  margin: 4px 0;
+}
 .itemslide-active
 {/*applied to current active item*/
     -webkit-transform:  scale(1);
@@ -72,7 +75,7 @@ button {
   min-height: 17px;
 }
 .isTested { color: tomato; }
-.isAddedToList { color: #aaa; }
+.isAddedToList { color: green; }
 .hidden {
   display: none;
 }

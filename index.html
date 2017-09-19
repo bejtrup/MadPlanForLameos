@@ -29,10 +29,12 @@
 <script id="previewRecipes" type="text/x-handlebars-template">
   <li id="foodplan" class="previewRecipe hidden">
     <h3>Din aktive mad plan:</h3>
-    <h4>DAG 1: NAVN</h4>
+    {{#each foodPlan}}
+     <h5>dag: {{day}}: {{name}}</h5>
+    {{/each}}
     <button onclick="">FÆRDIG</button>
   </li>
-{{#each allOpskrifts}}
+{{#each 0.allOpskrifts}}
  {{#unless inFoodplan}}
   <li id="{{id}}" class="previewRecipe">
     <h3>{{name}}</h3>
