@@ -5,6 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
     <title>Mealzebub</title>
+<link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300|Sumana" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="src/index.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script type="text/javascript" src="./src/itemslide.min.js"></script>
@@ -17,31 +18,50 @@
     </script>
   </head>
   <body>
-  <h1>Mealzebub</h1>
+
   <div class="body">
-    <h2 id="pageHeadline">Vælg ret til 1. dag</h2>
+    <div class="navbar">
+      <div class="navbar-left">
+
+      </div>
+      <div class="navbar-middle bavbar-brand">
+          <h1>Mealzebub</h1>
+      </div>
+      <div class="navbar-right">
+
+      </div>
+    </div>
     <div id="Carousel">
       <ul id="recipe-list" class="recipe-list"></ul>
     </div>
-    <div id="grocery-list"></div>
   </div>
 
 <script id="previewRecipes" type="text/x-handlebars-template">
   <li id="foodplan" class="previewRecipe hidden">
-    <h3>Din aktive mad plan:</h3>
-    {{#each foodPlan}}
-     <h5>dag: {{day}}: {{name}}</h5>
-    {{/each}}
-    <button onclick="">FÆRDIG</button>
+    <div class="previewRecipe-head">
+      <h3>Din aktive mad plan:</h3>
+      {{#each foodPlan}}
+       <h5>dag: {{day}}: {{name}}</h5>
+      {{/each}}
+    </div>
+    <div class="grocery-test-list"></div>
+    <div class="previewRecipe-footer">
+      <button onclick="">FÆRDIG</button>
+    </div>
   </li>
 {{#each 0.allOpskrifts}}
  {{#unless inFoodplan}}
-  <li id="{{id}}" class="previewRecipe">
-    <h3>{{name}}</h3>
-    {{#each ingrediensers}}
-      <p>{{ingredienseTypes.0.name}} </p>
-    {{/each}}
-    <button onclick="addToFoodPlan('{{id}}');">VÆLG</button>
+  <li id="{{id}}" class="previewRecipe color-profile-{{counter @index}}">
+    <div class="previewRecipe-head">
+      <h2>{{name}}</h3>
+      {{#each ingrediensers}}
+        <p>{{ingredienseTypes.0.name}} </p>
+      {{/each}}
+    </div>
+    <div class="grocery-test-list"></div>
+    <div class="previewRecipe-footer">
+      <button onclick="addToFoodPlan('{{id}}');">VÆLG</button>
+    </div>
   </li>
   {{/unless}}
 {{/each}}
@@ -51,8 +71,8 @@
 {{#each this}}
     <div id="{{id}}" class="groceryListTest {{#if isTested}}isTested{{/if}} {{#if isAddedToList}}isAddedToList{{/if}}">
         <h3>{{name}}</h3>
-        <h3><span>{{amount}}<span>{{#if bulk}} af {{bulk}}{{/if}} {{unit}}</h3>
-        <h3>{{#if leftover}}rest: {{leftover}}{{/if}}</h3>
+        <h3><span>{{amount}}<span>{{#if bulk}} af {{bulk}}{{/if}} {{unit}}.</h3>
+        <h3>{{#if leftover}}rest: {{leftover}}{{/if}}.</h3>
     </div>
 {{/each}}
 </script>

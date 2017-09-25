@@ -3,58 +3,123 @@ html, body {
   margin: 0;
 }
 
-.Carousel{/*frame*/
-    height:150px;
-    width:100%;
-    position: relative;
-    overflow: hidden;
+h1,h2,h3,h4,h5,h6,p {
+font-family: 'Open Sans Condensed', sans-serif;
+}
+
+
+.color-profile-1{
+  background: #F6C8D0;
+}
+.color-profile-2{
+  background: #BAE2DE;
+}
+.color-profile-3{
+  background: #FBC085;
+}
+
+.body {
+  padding-top: 50px ;
+}
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  z-index: 15;
+  padding: 5px 0;
+}
+.navbar .navbar-middle{
+  text-align: center;
+}
+
+.bavbar-brand h1 {
+  font-family: 'Sumana', serif;
+  margin: 0;
+  line-height: 30px;
+  font-size: 22px;
+}
+.navbar .navbar-middle{
+  padding: 0;
+  height: 36px;
 }
 
 .recipe-list {
-    /*Add if you want to disable the option of selecting the text while sliding*/
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-
-    margin: 0;
-    padding: 0;
-    position: absolute;
-    width: 100%;
-
-    list-style-type: none;
-    -webkit-transform-style: preserve-3d;
-  	-ms-transform-style: preserve-3d;
-  	transform-style: preserve-3d;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
 }
 
 .previewRecipe {
+  padding: 15px;
+  list-style-type: none;
+  width: 80%;
+  margin: 0 auto 30px auto;
+}
+#foodplan{
+  background: #aaa;
+}
+.Carousel{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    z-index: 10;
+}
+
+.Carousel .recipe-list {
+    position: absolute;
+    left: 0;
+    height: 100vh;
+    -webkit-transform-style: preserve-3d;
+    -ms-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+}
+
+.Carousel .previewRecipe {
+  position: relative;
+    margin: 0;
+    padding: 0;
     float: left;
-    width:90vw;
-    min-width: 250px;
-    height: 150px;
-    color: #fff;
-    font-weight: 300;
-    cursor: pointer;
-    background: #000;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    padding: 10px;
-    box-sizing: border-box;
-    overflow: hidden;
-    margin-left: 5vw;
+    width: 100vw;
+    height: 100%;
+    color: #FFF;
 }
-.Carousel .previewRecipe{
-    margin-left: 0;
+
+.Carousel .previewRecipe-head{
+  padding: 10px;
+  padding-top: 10%;
+  height: 25%;
+  box-sizing: border-box;
 }
+.Carousel .grocery-test-list{
+  background: #fff;
+  color: #333;
+  height: 75%;
+  padding: 10px;
+  padding-bottom: : 75px;
+}
+.Carousel .previewRecipe-footer{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 55px;
+  background: #b7b7b7;
+}
+
 .previewRecipe p {
   display: inline-block;
-  margin: 4px 0;
+  margin: 0;
 }
-.previewRecipe h5 {
-  display: block;
-  margin: 4px 0;
-}
+
 .itemslide-active
 {/*applied to current active item*/
     -webkit-transform:  scale(1);
@@ -64,8 +129,15 @@ html, body {
 }
 
 button {
-  background: red;
+  background: rgba(51, 51, 51, 0.19);
+  border: none;
+  height: 33px;
+  margin: 0 auto;
+  width: 50%;
+  display: block;
+  margin-top: 10px
 }
+
 .groceryListTest h3 {
   display: inline-block;
   float: left;
