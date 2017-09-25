@@ -20,8 +20,6 @@ function initPage(){
   makePreviewRecipeList();
 
 }
-
-
 function addToFoodPlan(recipeId){
   var indexOfId = idInArray(allRecipes.allOpskrifts, recipeId);
   var persons = 2;
@@ -43,11 +41,14 @@ function addToFoodPlan(recipeId){
   });
   foodPlan.push({day: (foodPlan.length + 1), recipieid: allRecipes.allOpskrifts[indexOfId].id, name: allRecipes.allOpskrifts[indexOfId].name});
   allRecipes.allOpskrifts[indexOfId].inFoodplan = true;
+
   newOrderArray();
   makePreviewRecipeList();
   makeCarousel();
-  makeGroseryListTest(groceryList);
-  updatePageHeadline();
+  makeGroseryListTest("foodplan", groceryList);
+
+ $("li#foodplan").addClass(newClass[1]);
+
   return false;
 }
 
@@ -73,14 +74,9 @@ function compareActiveRecipeAndGroceryList(activeRecipeID){
         }
       });
   }
-  makeGroseryListTest(testGroceryList);
+  makeGroseryListTest(activeRecipeID, testGroceryList);
 }
 
-function updatePageHeadline(){
-  var H = "Vælg ret til "+(foodPlan.length+1)+". dag";
-  $("#pageHeadline").text(H);
-  return false;
-}
 function makePreviewRecipeList(){
   var compiledTemplate = Handlebars.compile( $("#previewRecipes").html() );
   var arraytosend = [];
@@ -90,24 +86,28 @@ function makePreviewRecipeList(){
   var generatedTemplate = compiledTemplate(arraytosend);
   $("#recipe-list").html(generatedTemplate);
 }
-function makeGroseryListTest(arr){
+function makeGroseryListTest(id, arr){
   var compiledTemplate = Handlebars.compile( $("#groceryListTest").html() );
   var generatedTemplate = compiledTemplate(arr);
-  $("#grocery-list").html(generatedTemplate);
+  $("#"+id+" .grocery-test-list").html(generatedTemplate);
 }
 function makeCarousel(){
   $("li#foodplan").removeClass("hidden");
   $("div#Carousel").addClass("Carousel");
   $("#recipe-list").itemslide({
       //start: 1,
+      one_item: true,
       duration: 500,
   });
+  $(window).resize(function () {
+        $("#recipe-list").reload();
+
+    });
   $("#recipe-list").on('changeActiveIndex', function(e) {
           //console.log( $("#recipe-list").getActiveIndex() );
           var activeId = $("li.itemslide-active").attr("id")
           compareActiveRecipeAndGroceryList(activeId);
   });
-
 }
 function newOrderArray(){
   groceryList.forEach(function(item){
@@ -135,3 +135,7 @@ function idInArray(arr,value){
     }
   }
 }
+Handlebars.registerHelper("counter", function (index){
+    // skal max være 10
+    return index+1;
+});
