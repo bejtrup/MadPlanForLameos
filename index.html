@@ -51,7 +51,7 @@
   </li>
 {{#each 0.allOpskrifts}}
  {{#unless inFoodplan}}
-  <li id="{{id}}" class="previewRecipe color-profile-{{counter @index}}">
+  <li id="{{id}}" class="previewRecipe color-profile-{{colorProfile}}">
     <div class="previewRecipe-head">
       <h2>{{name}}</h3>
       {{#each ingrediensers}}
@@ -69,6 +69,7 @@
 
 <script id="groceryListTest" type="text/x-handlebars-template">
 {{#each this}}
+    <h6 class="groceryGroup">{{groceryGroup group}}</h6>
     <div id="{{id}}" class="groceryListTest {{#if isTested}}isTested{{/if}} {{#if isAddedToList}}isAddedToList{{/if}}">
         <h3>{{name}}</h3>
         <h3><span>{{amount}}<span>{{#if bulk}} af {{bulk}}{{/if}} {{unit}}.</h3>
@@ -76,6 +77,9 @@
     </div>
 {{/each}}
 </script>
+
+<!-- tilføj gruppe til ingredienseType (som protein, basis, tørvare, mejeri ) -->
+<!-- i alkyritme, hvis der er rest af et fælles ingridiens, så plus 2 -->
 
   </body>
 </html>

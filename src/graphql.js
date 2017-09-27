@@ -8,13 +8,26 @@ var groceryList =[];
 function fetchAllRecipes() {
   $.post({
     url: graphQLEndpoint,
-    data: JSON.stringify({ "query": "{ allOpskrifts{ id name ingrediensers{ amount ingredienseTypes{ id name bulk unitses{ name shorthand }  } } } }" }),
+    data: JSON.stringify({ "query": "{ allOpskrifts{ id name ingrediensers{ amount ingredienseTypes{ id name bulk group unitses{ name shorthand }  } } } }" }),
     contentType: 'application/json'
   }).done(function(response) {
       allRecipes = response.data;
+      adsColorProfileToAllRecipes();
       initPage();
   });
 }
+
+
+function adsColorProfileToAllRecipes(){
+  var count = 1
+  allRecipes.allOpskrifts.forEach(function(item){
+    item.colorProfile = count;
+    count++
+    count = count > 5 ? 1 : count;
+
+  });
+}
+
 
 function initPage(){
   makePreviewRecipeList();
@@ -36,7 +49,7 @@ function addToFoodPlan(recipeId){
      else{
        var leftover = v.ingredienseTypes[0].bulk - (v.amount*persons)
        leftover = leftover > 0 ? leftover : '';
-       groceryList.push({id: v.ingredienseTypes[0].id, name: v.ingredienseTypes[0].name, amount: (v.amount*persons), unit: v.ingredienseTypes[0].unitses[0].shorthand, bulk: v.ingredienseTypes[0].bulk, leftover: leftover });
+       groceryList.push({id: v.ingredienseTypes[0].id, name: v.ingredienseTypes[0].name, amount: (v.amount*persons), unit: v.ingredienseTypes[0].unitses[0].shorthand, bulk: v.ingredienseTypes[0].bulk, group: v.ingredienseTypes[0].group, leftover: leftover });
      }
   });
   foodPlan.push({day: (foodPlan.length + 1), recipieid: allRecipes.allOpskrifts[indexOfId].id, name: allRecipes.allOpskrifts[indexOfId].name});
@@ -46,8 +59,6 @@ function addToFoodPlan(recipeId){
   makePreviewRecipeList();
   makeCarousel();
   makeGroseryListTest("foodplan", groceryList);
-
- $("li#foodplan").addClass(newClass[1]);
 
   return false;
 }
@@ -70,7 +81,7 @@ function compareActiveRecipeAndGroceryList(activeRecipeID){
         } else {
           var leftover = ing.ingredienseTypes[0].bulk - (ing.amount*persons);
           leftover = leftover > 0 ? leftover : '';
-          testGroceryList.push({ id: ing.ingredienseTypes[0].id, name: ing.ingredienseTypes[0].name, amount:(ing.amount*persons),  unit: ing.ingredienseTypes[0].unitses[0].shorthand, bulk: ing.ingredienseTypes[0].bulk, leftover: leftover, isAddedToList: true});
+          testGroceryList.push({ id: ing.ingredienseTypes[0].id, name: ing.ingredienseTypes[0].name, amount:(ing.amount*persons),  unit: ing.ingredienseTypes[0].unitses[0].shorthand, bulk: ing.ingredienseTypes[0].bulk, group: ing.ingredienseTypes[0].group, leftover: leftover, isAddedToList: true});
         }
       });
   }
@@ -82,15 +93,34 @@ function makePreviewRecipeList(){
   var arraytosend = [];
   arraytosend.push(allRecipes);
   arraytosend.foodPlan = foodPlan;
-  console.log(arraytosend);
   var generatedTemplate = compiledTemplate(arraytosend);
   $("#recipe-list").html(generatedTemplate);
 }
 function makeGroseryListTest(id, arr){
+
+  arr.sort(SortByGroup);
+
   var compiledTemplate = Handlebars.compile( $("#groceryListTest").html() );
   var generatedTemplate = compiledTemplate(arr);
   $("#"+id+" .grocery-test-list").html(generatedTemplate);
 }
+
+function SortByGroup(a, b) {
+  var aSize = a.group;
+  var bSize = b.group;
+  var aLow = a.name;
+  var bLow = b.name;
+
+  if(aSize == bSize)
+  {
+      return (aLow < bLow) ? -1 : (aLow > bLow) ? 1 : 0;
+  }
+  else
+  {
+      return (aSize < bSize) ? -1 : 1;
+  }
+}
+
 function makeCarousel(){
   $("li#foodplan").removeClass("hidden");
   $("div#Carousel").addClass("Carousel");
@@ -135,7 +165,30 @@ function idInArray(arr,value){
     }
   }
 }
-Handlebars.registerHelper("counter", function (index){
-    // skal max være 10
-    return index+1;
+var currentGroup = '';
+Handlebars.registerHelper("groceryGroup", function (group){
+    if ( currentGroup == group) {
+      return null
+    } else {
+      currentGroup = group
+      var name;
+      switch(group) {
+          case 0:
+              name = "Basis"
+              break;
+          case 1:
+              name = "Kød"
+              break;
+          case 2:
+              name = "Frugt og grønt "
+              break;
+          case 3:
+              name = "Tørstof"
+              break;
+          case 4:
+              name = "Væske"
+              break;
+      }
+      return name;
+    }
 });
