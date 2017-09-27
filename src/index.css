@@ -3,8 +3,9 @@ html, body {
   margin: 0;
 }
 
-h1,h2,h3,h4,h5,h6,p {
+h2,h3,h4,h5,h6,p {
 font-family: 'Open Sans Condensed', sans-serif;
+/*color: rgba(0, 0, 0, 0.58);*/
 }
 
 
@@ -16,6 +17,12 @@ font-family: 'Open Sans Condensed', sans-serif;
 }
 .color-profile-3{
   background: #FBC085;
+}
+.color-profile-4{
+  background: #DBE0DC;
+}
+.color-profile-5{
+  background: #c0dbac;
 }
 
 .body {
@@ -60,7 +67,7 @@ font-family: 'Open Sans Condensed', sans-serif;
   margin: 0 auto 30px auto;
 }
 #foodplan{
-  background: #aaa;
+  background: #CBBDA6;
 }
 .Carousel{
     position: fixed;

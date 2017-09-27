@@ -12,9 +12,22 @@ function fetchAllRecipes() {
     contentType: 'application/json'
   }).done(function(response) {
       allRecipes = response.data;
+      adsColorProfileToAllRecipes();
       initPage();
   });
 }
+
+
+function adsColorProfileToAllRecipes(){
+  var count = 1
+  allRecipes.allOpskrifts.forEach(function(item){
+    item.colorProfile = count;
+    count++
+    count = count > 5 ? 1 : count;
+
+  });
+}
+
 
 function initPage(){
   makePreviewRecipeList();
@@ -82,7 +95,6 @@ function makePreviewRecipeList(){
   var arraytosend = [];
   arraytosend.push(allRecipes);
   arraytosend.foodPlan = foodPlan;
-  console.log(arraytosend);
   var generatedTemplate = compiledTemplate(arraytosend);
   $("#recipe-list").html(generatedTemplate);
 }
@@ -135,7 +147,3 @@ function idInArray(arr,value){
     }
   }
 }
-Handlebars.registerHelper("counter", function (index){
-    // skal max være 10
-    return index+1;
-});
