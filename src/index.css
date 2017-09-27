@@ -5,24 +5,45 @@ html, body {
 
 h2,h3,h4,h5,h6,p {
 font-family: 'Open Sans Condensed', sans-serif;
-/*color: rgba(0, 0, 0, 0.58);*/
+color: rgba(0, 0, 0, 0.58);*/
 }
 
 
-.color-profile-1{
+.color-profile-1,
+.color-profile-1 .isTested{
   background: #F6C8D0;
 }
-.color-profile-2{
+.color-profile-2,
+.color-profile-2 .isTested{
   background: #BAE2DE;
 }
-.color-profile-3{
+.color-profile-3,
+.color-profile-3 .isTested{
   background: #FBC085;
 }
-.color-profile-4{
+.color-profile-4,
+.color-profile-4 .isTested{
   background: #DBE0DC;
 }
-.color-profile-5{
+.color-profile-5,
+.color-profile-5 .isTested{
   background: #c0dbac;
+}
+
+.color-profile-1 .isAddedToList h3 {
+  color: #F6C8D0;
+}
+.color-profile-2 .isAddedToList h3 {
+  color: #BAE2DE;
+}
+.color-profile-3 .isAddedToList h3 {
+  color: #FBC085;
+}
+.color-profile-4 .isAddedToList h3 {
+  color: #c2c7c3;
+}
+.color-profile-5 .isAddedToList h3 {
+  color: #c0dbac;
 }
 
 .body {
@@ -97,7 +118,6 @@ font-family: 'Open Sans Condensed', sans-serif;
     float: left;
     width: 100vw;
     height: 100%;
-    color: #FFF;
 }
 
 .Carousel .previewRecipe-head{
@@ -144,17 +164,23 @@ button {
   display: block;
   margin-top: 10px
 }
-
+.groceryListTest {
+  display: block;
+  width: 100%;
+}
+.groceryGroup{
+  margin: 20px 0 0 0;
+}
+.groceryGroup:empty {
+  display: none;
+}
 .groceryListTest h3 {
   display: inline-block;
-  float: left;
-  width: 32%;
+  width: 31%;
   margin: 2px 0;
   font-size: 15px;
   min-height: 17px;
 }
-.isTested { color: tomato; }
-.isAddedToList { color: green; }
 .hidden {
   display: none;
 }

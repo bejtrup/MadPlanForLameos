@@ -69,6 +69,7 @@
 
 <script id="groceryListTest" type="text/x-handlebars-template">
 {{#each this}}
+    <h6 class="groceryGroup">{{groceryGroup group}}</h6>
     <div id="{{id}}" class="groceryListTest {{#if isTested}}isTested{{/if}} {{#if isAddedToList}}isAddedToList{{/if}}">
         <h3>{{name}}</h3>
         <h3><span>{{amount}}<span>{{#if bulk}} af {{bulk}}{{/if}} {{unit}}.</h3>
