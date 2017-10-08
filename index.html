@@ -1,23 +1,40 @@
 <!DOCTYPE html>
 
 <html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
-    <title>Mealzebub</title>
-<link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300|Sumana" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="Css/index.min.css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script type="text/javascript" src="./src/itemslide.min.js"></script>
-    <script type="text/javascript" src="./src/handlebars-v4.0.10.js"></script>
-    <script src="./src/graphql.js"></script>
-    <script>
-    $(document).ready(function(){
-      fetchAllRecipes();
-    });
-    </script>
-  </head>
-  <body>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+  <title>Mealzebub</title>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300|Sumana" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="Css/index.min.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script type="text/javascript" src="./src/itemslide.min.js"></script>
+  <script type="text/javascript" src="./src/handlebars-v4.0.10.js"></script>
+  <script src="./src/graphql.js"></script>
+  <script>
+  $(document).ready(function(){
+    fetchAllRecipes();
+  });
+  </script>
+</head>
+<body>
+  <h2>Row oriented table</h2>
+  <div class="Rtable Rtable--4cols">
+
+    <div class="Rtable-cell"><h3>Eddard Stark</h3></div>
+    <div class="Rtable-cell">Has a sword named Ice</div>
+    <div class="Rtable-cell">No direwolf</div>
+    <div class="Rtable-cell"><strong>Lord of Winterfell</strong></div>
+
+    <div class="Rtable-cell"><h3>Jon Snow</h3></div>
+    <div class="Rtable-cell">Has a sword named Longclaw</div>
+    <div class="Rtable-cell">Direwolf: Ghost</div>
+    <div class="Rtable-cell"><strong>Knows nothing</strong></div>
+
+    <div class="Rtable-cell"><h3>Arya Stark</h3></div>
+    <div class="Rtable-cell">Has a sword named Needle</div>
+    <div class="Rtable-cell">Direwolf: Nymeria</div>
+    <div class="Rtable-cell"><strong>No one</strong></div>
 
   <div class="body">
     <div class="navbar">
@@ -25,7 +42,7 @@
 
       </div>
       <div class="navbar-middle bavbar-brand">
-          <h1>Mealzebub</h1>
+        <h1>Mealzebub</h1>
       </div>
       <div class="navbar-right">
 
@@ -36,50 +53,50 @@
     </div>
   </div>
 
-<script id="previewRecipes" type="text/x-handlebars-template">
-  <li id="foodplan" class="previewRecipe hidden">
-    <div class="previewRecipe-head">
-      <h3>Din aktive mad plan:</h3>
-      {{#each foodPlan}}
-       <h5>dag: {{day}}: {{name}}</h5>
+  <script id="previewRecipes" type="text/x-handlebars-template">
+    <li id="foodplan" class="previewRecipe hidden">
+      <div class="previewRecipe-head">
+        <h3>Din aktive mad plan:</h3>
+        {{#each foodPlan}}
+        <h5>dag: {{day}}: {{name}}</h5>
+        {{/each}}
+      </div>
+      <div class="grocery-test-list"></div>
+      <div class="previewRecipe-footer">
+        <button onclick="">FÆRDIG</button>
+      </div>
+    </li>
+    {{#each 0.allOpskrifts}}
+    {{#unless inFoodplan}}
+    <li id="{{id}}" class="previewRecipe color-profile-{{colorProfile}}">
+      <div class="previewRecipe-head">
+        <h2>{{name}}</h3>
+          {{#each ingrediensers}}
+          <p>{{ingredienseTypes.0.name}} </p>
+          {{/each}}
+        </div>
+        <div class="grocery-test-list"></div>
+        <div class="previewRecipe-footer">
+          <button onclick="addToFoodPlan('{{id}}');">VÆLG</button>
+        </div>
+      </li>
+      {{/unless}}
       {{/each}}
-    </div>
-    <div class="grocery-test-list"></div>
-    <div class="previewRecipe-footer">
-      <button onclick="">FÆRDIG</button>
-    </div>
-  </li>
-{{#each 0.allOpskrifts}}
- {{#unless inFoodplan}}
-  <li id="{{id}}" class="previewRecipe color-profile-{{colorProfile}}">
-    <div class="previewRecipe-head">
-      <h2>{{name}}</h3>
-      {{#each ingrediensers}}
-        <p>{{ingredienseTypes.0.name}} </p>
-      {{/each}}
-    </div>
-    <div class="grocery-test-list"></div>
-    <div class="previewRecipe-footer">
-      <button onclick="addToFoodPlan('{{id}}');">VÆLG</button>
-    </div>
-  </li>
-  {{/unless}}
-{{/each}}
-</script>
+    </script>
 
-<script id="groceryListTest" type="text/x-handlebars-template">
-{{#each this}}
-    <h6 class="groceryGroup">{{groceryGroup group}}</h6>
-    <div id="{{id}}" class="groceryListTest {{#if isTested}}isTested{{/if}} {{#if isAddedToList}}isAddedToList{{/if}}">
+    <script id="groceryListTest" type="text/x-handlebars-template">
+      {{#each this}}
+      <h6 class="groceryGroup">{{groceryGroup group}}</h6>
+      <div id="{{id}}" class="groceryListTest {{#if isTested}}isTested{{/if}} {{#if isAddedToList}}isAddedToList{{/if}}">
         <h3>{{name}}</h3>
         <h3><span>{{amount}}<span>{{#if bulk}} af {{bulk}}{{/if}} {{unit}}.</h3>
-        <h3>{{#if leftover}}rest: {{leftover}}{{/if}}.</h3>
-    </div>
-{{/each}}
-</script>
+          <h3>{{#if leftover}}rest: {{leftover}}{{/if}}.</h3>
+        </div>
+        {{/each}}
+      </script>
 
-<!-- tilføj gruppe til ingredienseType (som protein, basis, tørvare, mejeri ) -->
-<!-- i alkyritme, hvis der er rest af et fælles ingridiens, så plus 2 -->
+      <!-- tilføj gruppe til ingredienseType (som protein, basis, tørvare, mejeri ) -->
+      <!-- i alkyritme, hvis der er rest af et fælles ingridiens, så plus 2 -->
 
-  </body>
-</html>
+    </body>
+    </html>
