@@ -20,117 +20,112 @@
 <body>
   <div class="body">
     <div class="navbar">
-      <div class="navbar-left">
-
-      </div>
+      <div class="navbar-left"></div>
       <div class="navbar-middle bavbar-brand">
         <h1>Mealzebub</h1>
       </div>
-      <div class="navbar-right">
-
-      </div>
+      <div class="navbar-right"></div>
     </div>
-    <div id="Carousel">
-      <ul id="recipe-list" class="recipe-list"></ul>
+
+    <div id="Frontpage" class="frontpage"></div>
+
+    <div id="Carousel" class=carousel>
+      <div id="Foodplan-Build-List" class=foodplan-build-list></div>
+      <ul id="Recipe-List" class="recipe-list m-0 p-0"></ul>
     </div>
   </div>
 
-  <script id="previewRecipes" type="text/x-handlebars-template">
-    <li id="foodplan" class="previewRecipe hidden">
-      <div class="previewRecipe-head">
+  <script id="recipe-cards" type="text/x-handlebars-template">
+    {{#each allOpskrifts}}
+    <div id="{{id}}" class="col-11 mx-auto mb-3 p-3 color-profile-{{colorProfile}}">
+      <div class="col-12 p-0">
+        <h3>{{name}}</h3>
+        {{#each ingrediensers}}
+        <h5 class="d-inline-block">{{ingredienseTypes.0.name}}</h5>
+        {{/each}}
+      </div>
+      <div class="col-12 text-center">
+        <button class="btn btn-primary" onclick="beginNewFoodplan('{{id}}');">Vælg</button>
+      </div>
+    </div>
+    {{/each}}
+  </script>
+
+  <script id="Foodplan-Build" type="text/x-handlebars-template">
+      <div class="previewRecipe-head bg-secondary col-12 pt-5">
         <h3>Din aktive mad plan:</h3>
-        {{#each foodPlan}}
+        {{#each this}}
         <h5>dag: {{day}}: {{name}}</h5>
         {{/each}}
       </div>
-      <div class="previewRecipe-body">
-        <div class="text-center">
-            <h4><b>Ingrediensliste</b></h3>
+      <div class="previewRecipe-body col-12">
+        <div class="text-center pt-2">
+          <h4><b>Ingrediensliste</b></h3>
         </div>
-        <div class="groceryListTest" style="border-bottom:1px solid #dcdcdc;">
-              <div class="name">
-                <h6>Skal bruge</h6>
-              </div>
-              <div class="amount">
-                <h6>.</h6>
-              </div>
-              <div class="bulk">
-                <h6>Har</h6>
-              </div>
-              <div class="rest">
-                <h6>Rest</h6>
-              </div>
-        </div>
-        <div class="grocery-test-list"></div>
-      </div>
-      <div class="previewRecipe-footer">
-        <button onclick="">FÆRDIG</button>
-      </div>
-    </li>
-    {{#each 0.allOpskrifts}}
-    {{#unless inFoodplan}}
-    <li id="{{id}}" class="previewRecipe color-profile-{{colorProfile}}">
-      <div class="previewRecipe-head">
-        <h2>{{name}}</h3>
-          {{#each ingrediensers}}
-          <p>{{ingredienseTypes.0.name}} </p>
-          {{/each}}
-        </div>
-        <div class="previewRecipe-body">
-          <div class="text-center">
-              <h4><b>Ingrediensliste</b></h3>
+          <div class="row">
+            <div class="col-6">
+              <h6>Skal bruge</h6>
+            </div>
+            <div class="col-2 text-center">
+              <h6>Har</h6>
+            </div>
+            <div class="col-2 text-right">
+              <h6>Rest</h6>
+            </div>
           </div>
-          <div class="groceryListTest" style="border-bottom:1px solid #dcdcdc;">
-                <div class="name">
-                  <h6>Skal bruge</h6>
-                </div>
-                <div class="amount">
-                  <h6>.</h6>
-                </div>
-                <div class="bulk">
-                  <h6>Har</h6>
-                </div>
-                <div class="rest">
-                  <h6>Rest</h6>
-                </div>
-          </div>
-          <div class="grocery-test-list"></div>
+          <div id="groceryList-to-Test"></div>
         </div>
         <div class="previewRecipe-footer">
-          <button onclick="addToFoodPlan('{{id}}');">VÆLG</button>
+          <button onclick="">FÆRDIG</button>
+        </div>
+  </script>
+
+    <script id="previewRecipes" type="text/x-handlebars-template">
+      <li class="previewRecipe"></li>
+      {{#each 0.allOpskrifts}}
+      {{#unless inFoodplan}}
+      <li id="{{id}}" class="previewRecipe">
+        <div class="previewRecipe-head px-3 pt-5 color-profile-{{colorProfile}}">
+          <h3>{{name}}</h3>
+          {{#each ingrediensers}}
+          <h5 class="d-inline-block">{{ingredienseTypes.0.name}}</h5>
+          {{/each}}
+        </div>
+        <div class="previewRecipe-footer text-center">
+          <button class="btn btn-secondary" onclick="addToFoodPlan('{{id}}');">
+            <h5>Vælg</h5>
+          </button>
         </div>
       </li>
       {{/unless}}
       {{/each}}
-    </script>
+</script>
 
-    <script id="groceryListTest" type="text/x-handlebars-template">
-      {{#each this}}
-      <h6 class="groceryGroup">{{groceryGroup group}}</h6>
-      <div id="{{id}}" class="groceryListTest {{#if isTested}}isTested{{/if}} {{#if isAddedToList}}isAddedToList{{/if}}">
-          <div class="amount">
-            <h4>{{amount}} <span>{{unit}}.</span></h4>
-          </div>
-          <div class="name">
-            <h4>{{name}}</h4>
-          </div>
-          <div class="bulk">
-            <div class="bulkSelector">
-              <h4>{{#if bulk}}{{bulk}} <span>{{unit}}.</span>{{/if}}</h4>
-            </div>
-          </div>
-          <div class="rest">
-              <h4>{{leftover}} <span>{{unit}}.</span></h4>
-          </div>
-          <div class="check">
-            <div class="checkbox"></div>
-          </div>
+<script id="groceryListTest" type="text/x-handlebars-template">
+  {{#each this}}
+  <!-- <h6>{{groceryGroup group}}</h6> -->
+  <div id="{{id}}" class="row {{#if isTested}}isTested{{/if}} {{#if isAddedToList}}isAddedToList{{/if}}">
+    <div class="col-2 px-0 text-right">
+      <h5>{{amount}} <span>{{unit}}.</span></h5>
+    </div>
+    <div class="col-4 px-2">
+      <h5>{{name}}</h5>
+    </div>
+    <div class="col-2 px-0 text-center">
+      <div class="bulkSelector">
+        <h5>{{bulk}}{{#unless bulk}}?{{/unless}} <span>{{unit}}.</span></h5>
       </div>
-      {{/each}}
-    </script>
-
-      <!-- tilføj gruppe til ingredienseType (som protein, basis, tørvare, mejeri ) -->
-      <!-- i alkyritme, hvis der er rest af et fælles ingridiens, så plus 2 -->
-
-    </body>
-    </html>
+    </div>
+    <div class="col-2 px-0 text-right">
+      <div class="leftover">
+      <h5>{{leftover}} <span>{{unit}}.</span></h5>
+      </div>
+    </div>
+    <div class="col-2  text-right">
+      <div class="checkbox"></div>
+    </div>
+  </div>
+  {{/each}}
+</script>
+</body>
+</html>

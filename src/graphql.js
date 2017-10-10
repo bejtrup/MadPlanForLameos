@@ -17,7 +17,6 @@ function fetchAllRecipes() {
   });
 }
 
-
 function adsColorProfileToAllRecipes(){
   var count = 1
   allRecipes.allOpskrifts.forEach(function(item){
@@ -28,11 +27,22 @@ function adsColorProfileToAllRecipes(){
   });
 }
 
-
 function initPage(){
-  makePreviewRecipeList();
-
+  makeFrontpage();
+  //makePreviewRecipeList();
 }
+
+function makeFrontpage() {
+  var compiledTemplate = Handlebars.compile( $("#recipe-cards").html() );
+  var generatedTemplate = compiledTemplate(allRecipes);
+  $("#Frontpage").html(generatedTemplate);
+}
+
+function beginNewFoodplan(recipeId){
+  $("#Frontpage").html('');
+  addToFoodPlan(recipeId)
+}
+
 function addToFoodPlan(recipeId){
   var indexOfId = idInArray(allRecipes.allOpskrifts, recipeId);
   var persons = 2;
@@ -54,32 +64,52 @@ function addToFoodPlan(recipeId){
   foodPlan.push({day: (foodPlan.length + 1), recipieid: allRecipes.allOpskrifts[indexOfId].id, name: allRecipes.allOpskrifts[indexOfId].name});
   allRecipes.allOpskrifts[indexOfId].inFoodplan = true;
 
+  // MAKE FOODPLAN GUIL LIST
+
+  var compiledTemplate = Handlebars.compile( $("#Foodplan-Build").html() );
+  var generatedTemplate = compiledTemplate(foodPlan);
+  $("#Foodplan-Build-List").html(generatedTemplate);
+  makeGroseryListTest("groceryList-to-Test", groceryList);
+
+  // MAKE RECIPES TO TEST
+
   newOrderArray();
   makePreviewRecipeList();
   makeCarousel();
-  makeGroseryListTest("foodplan", groceryList);
 
   return false;
 }
 
+function makeGroseryListTest(id, arr){
+  arr.sort(SortByGroup);
+  var compiledTemplate = Handlebars.compile( $("#groceryListTest").html() );
+  var generatedTemplate = compiledTemplate(arr);
+  $("#groceryList-to-Test").html(generatedTemplate);
+}
+
+
+
+
 function compareActiveRecipeAndGroceryList(activeRecipeID){
   var testGroceryList =[];
   testGroceryList = JSON.parse(JSON.stringify(groceryList));
-  if(activeRecipeID != "foodplan"){
+  if(activeRecipeID != undefined){
       var activeRecipeIndex = idInArray(allRecipes.allOpskrifts, activeRecipeID);
       var persons = 2;
       allRecipes.allOpskrifts[activeRecipeIndex].ingrediensers.forEach(function(ing){
         var testIngId = ing.ingredienseTypes[0].id;
         var ingrediensersIndex = idInArray(testGroceryList, testIngId);
         if(ingrediensersIndex != undefined){
+          // UPDATE GROCERYLIST WITH SIMILAR ITEMS
           var newTotalAmount = groceryList[ingrediensersIndex].amount + (ing.amount*persons);
           testGroceryList[ingrediensersIndex].amount = newTotalAmount;
           var newLeftover = groceryList[ingrediensersIndex].leftover - (ing.amount*persons);
           testGroceryList[ingrediensersIndex].leftover = newLeftover;
           testGroceryList[ingrediensersIndex].isTested = true;
         } else {
-          var leftover = ing.ingredienseTypes[0].bulk - (ing.amount*persons);
-          testGroceryList.push({ id: ing.ingredienseTypes[0].id, name: ing.ingredienseTypes[0].name, amount:(ing.amount*persons),  unit: ing.ingredienseTypes[0].unitses[0].shorthand, bulk: ing.ingredienseTypes[0].bulk, group: ing.ingredienseTypes[0].group, leftover: leftover, isAddedToList: true});
+          // ADD NEW ITEMS TO GROCERYLIST
+          // var leftover = ing.ingredienseTypes[0].bulk - (ing.amount*persons);
+          // testGroceryList.push({ id: ing.ingredienseTypes[0].id, name: ing.ingredienseTypes[0].name, amount:(ing.amount*persons),  unit: ing.ingredienseTypes[0].unitses[0].shorthand, bulk: ing.ingredienseTypes[0].bulk, group: ing.ingredienseTypes[0].group, leftover: leftover, isAddedToList: true});
         }
       });
   }
@@ -92,16 +122,9 @@ function makePreviewRecipeList(){
   arraytosend.push(allRecipes);
   arraytosend.foodPlan = foodPlan;
   var generatedTemplate = compiledTemplate(arraytosend);
-  $("#recipe-list").html(generatedTemplate);
+  $("#Recipe-List").html(generatedTemplate);
 }
-function makeGroseryListTest(id, arr){
 
-  arr.sort(SortByGroup);
-
-  var compiledTemplate = Handlebars.compile( $("#groceryListTest").html() );
-  var generatedTemplate = compiledTemplate(arr);
-  $("#"+id+" .grocery-test-list").html(generatedTemplate);
-}
 
 function SortByGroup(a, b) {
   var aSize = a.group;
@@ -120,23 +143,23 @@ function SortByGroup(a, b) {
 }
 
 function makeCarousel(){
-  $("li#foodplan").removeClass("hidden");
-  $("div#Carousel").addClass("Carousel");
-  $("#recipe-list").itemslide({
+  $("li#foodplan").removeClass("d-none");
+  $("#Recipe-List").itemslide({
       //start: 1,
       one_item: true,
       duration: 500,
   });
   $(window).resize(function () {
-        $("#recipe-list").reload();
+        $("#Recipe-List").reload();
 
     });
-  $("#recipe-list").on('changeActiveIndex', function(e) {
+  $("#Recipe-List").on('changeActiveIndex', function(e) {
           //console.log( $("#recipe-list").getActiveIndex() );
           var activeId = $("li.itemslide-active").attr("id")
           compareActiveRecipeAndGroceryList(activeId);
   });
 }
+
 function newOrderArray(){
   groceryList.forEach(function(item){
     allRecipes.allOpskrifts.forEach(function(recipe){
@@ -151,11 +174,13 @@ function newOrderArray(){
   });
   allRecipes.allOpskrifts.sort(SortByGroceryMatch).reverse();
 }
+
 function SortByGroceryMatch(a, b){
   var aName = a.groceryMatch;
   var bName = b.groceryMatch;
   return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
 }
+
 function idInArray(arr,value){
   for(var i = 0; i < arr.length; i++) {
     if(arr[i].id === value) {
@@ -163,6 +188,7 @@ function idInArray(arr,value){
     }
   }
 }
+
 var currentGroup = '';
 Handlebars.registerHelper("groceryGroup", function (group){
     if ( currentGroup == group) {
