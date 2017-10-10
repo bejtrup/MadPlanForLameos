@@ -43,7 +43,26 @@
         <h5>dag: {{day}}: {{name}}</h5>
         {{/each}}
       </div>
-      <div class="grocery-test-list"></div>
+      <div class="previewRecipe-body">
+        <div class="text-center">
+            <h4><b>Ingrediensliste</b></h3>
+        </div>
+        <div class="groceryListTest" style="border-bottom:1px solid #dcdcdc;">
+              <div class="name">
+                <h6>Skal bruge</h6>
+              </div>
+              <div class="amount">
+                <h6>.</h6>
+              </div>
+              <div class="bulk">
+                <h6>Har</h6>
+              </div>
+              <div class="rest">
+                <h6>Rest</h6>
+              </div>
+        </div>
+        <div class="grocery-test-list"></div>
+      </div>
       <div class="previewRecipe-footer">
         <button onclick="">FÆRDIG</button>
       </div>
@@ -57,7 +76,26 @@
           <p>{{ingredienseTypes.0.name}} </p>
           {{/each}}
         </div>
-        <div class="grocery-test-list"></div>
+        <div class="previewRecipe-body">
+          <div class="text-center">
+              <h4><b>Ingrediensliste</b></h3>
+          </div>
+          <div class="groceryListTest" style="border-bottom:1px solid #dcdcdc;">
+                <div class="name">
+                  <h6>Skal bruge</h6>
+                </div>
+                <div class="amount">
+                  <h6>.</h6>
+                </div>
+                <div class="bulk">
+                  <h6>Har</h6>
+                </div>
+                <div class="rest">
+                  <h6>Rest</h6>
+                </div>
+          </div>
+          <div class="grocery-test-list"></div>
+        </div>
         <div class="previewRecipe-footer">
           <button onclick="addToFoodPlan('{{id}}');">VÆLG</button>
         </div>
@@ -70,12 +108,26 @@
       {{#each this}}
       <h6 class="groceryGroup">{{groceryGroup group}}</h6>
       <div id="{{id}}" class="groceryListTest {{#if isTested}}isTested{{/if}} {{#if isAddedToList}}isAddedToList{{/if}}">
-        <h3>{{name}}</h3>
-        <h3><span>{{amount}}<span>{{#if bulk}} af {{bulk}}{{/if}} {{unit}}.</h3>
-          <h3>{{#if leftover}}rest: {{leftover}}{{/if}}.</h3>
-        </div>
-        {{/each}}
-      </script>
+          <div class="amount">
+            <h4>{{amount}} <span>{{unit}}.</span></h4>
+          </div>
+          <div class="name">
+            <h4>{{name}}</h4>
+          </div>
+          <div class="bulk">
+            <div class="bulkSelector">
+              <h4>{{#if bulk}}{{bulk}} <span>{{unit}}.</span>{{/if}}</h4>
+            </div>
+          </div>
+          <div class="rest">
+              <h4>{{leftover}} <span>{{unit}}.</span></h4>
+          </div>
+          <div class="check">
+            <div class="checkbox"></div>
+          </div>
+      </div>
+      {{/each}}
+    </script>
 
       <!-- tilføj gruppe til ingredienseType (som protein, basis, tørvare, mejeri ) -->
       <!-- i alkyritme, hvis der er rest af et fælles ingridiens, så plus 2 -->

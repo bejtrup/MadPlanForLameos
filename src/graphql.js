@@ -48,7 +48,6 @@ function addToFoodPlan(recipeId){
      }
      else{
        var leftover = v.ingredienseTypes[0].bulk - (v.amount*persons)
-       leftover = leftover > 0 ? leftover : '';
        groceryList.push({id: v.ingredienseTypes[0].id, name: v.ingredienseTypes[0].name, amount: (v.amount*persons), unit: v.ingredienseTypes[0].unitses[0].shorthand, bulk: v.ingredienseTypes[0].bulk, group: v.ingredienseTypes[0].group, leftover: leftover });
      }
   });
@@ -80,7 +79,6 @@ function compareActiveRecipeAndGroceryList(activeRecipeID){
           testGroceryList[ingrediensersIndex].isTested = true;
         } else {
           var leftover = ing.ingredienseTypes[0].bulk - (ing.amount*persons);
-          leftover = leftover > 0 ? leftover : '';
           testGroceryList.push({ id: ing.ingredienseTypes[0].id, name: ing.ingredienseTypes[0].name, amount:(ing.amount*persons),  unit: ing.ingredienseTypes[0].unitses[0].shorthand, bulk: ing.ingredienseTypes[0].bulk, group: ing.ingredienseTypes[0].group, leftover: leftover, isAddedToList: true});
         }
       });

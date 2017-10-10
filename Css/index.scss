@@ -6,6 +6,7 @@ html, body {
 h2,h3,h4,h5,h6,p {
   font-family: 'Open Sans Condensed', sans-serif;
   color: rgba(0, 0, 0, 0.58);
+  margin: 0.2rem;
 }
 
 $color-profils:  #F6C8D0, #BAE2DE, #FBC085, #DBE0DC, #c0dbac;
@@ -61,6 +62,9 @@ button {
 .hidden {
   display: none;
 }
+.text-center {
+  text-align: center;
+}
 /* :::::FORSIDE:::::*/
 
 ul.recipe-list {
@@ -115,14 +119,14 @@ li.previewRecipe {
       height: 25%;
       box-sizing: border-box;
     }
-    .grocery-test-list{
+    .previewRecipe-body{
       background: #fff;
       color: #333;
       height: 75%;
       padding: 10px;
       padding-bottom: 75px;
       .groceryGroup{
-        margin: 20px 0 0 0;
+        margin: 6px 0 0 0;
       }
       .groceryGroup:empty {
         display: none;
@@ -130,12 +134,54 @@ li.previewRecipe {
       .groceryListTest {
         display: block;
         width: 100%;
-        h3 {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        margin: 4px 0;
+        .amount {
+          flex: 0 0 10%;
+          text-align: right;
+          padding-right: 5px;
+        }
+        .name {
+          flex: 0 0 33%;
+        }
+        .bulk {
+          flex: 0 0 18%;
+          text-align: center;
+          box-sizing: border-box;
+        }
+        .rest {
+          flex: 0 0 18%;
+          text-align: right;
+          box-sizing: border-box;
+        }
+        .check {
+          flex: 0 0 18%;
+          text-align: right;
+          box-sizing: border-box;
+        }
+        h4 {
+          margin: 0;
+          span {
+            font-size: 0.75em;
+          }
+        }
+        .bulkSelector {
+          height: 28px;
+          border-radius: 14px;
+          background: #efefef;
+          box-sizing: border-box;
+          h4{
+            line-height: 28px;
+          }
+        }
+        .checkbox {
           display: inline-block;
-          width: 31%;
-          margin: 2px 0;
-          font-size: 15px;
-          min-height: 17px;
+          width: 28px;
+          height: 28px;
+          border-radius: 14px;
+          background: #efefef;
         }
       }
     }
