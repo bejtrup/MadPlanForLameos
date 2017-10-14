@@ -39,11 +39,39 @@ function makeFrontpage() {
 }
 
 function beginNewFoodplan(recipeId){
-  $("#Frontpage").html('');
-  addToFoodPlan(recipeId)
+  //$("#Frontpage").html('');
+  // MAKE ELEMENT ABSOLUTE
+  var top = $("#"+recipeId).offset().top - $(window).scrollTop();
+  var left = $("#"+recipeId).offset().left;
+  var height = $("#"+recipeId).outerHeight();
+
+  $("#"+recipeId).next().css("margin-top", height+32 );
+  $("#"+recipeId).css({
+    position: "fixed",
+    top: top,
+    left: left
+  }).removeClass("ecipe-cards");
+
+
+
+  // FOODPLAN DRAW OUT
+  $("#foodPlan-Draw").removeClass("in").addClass("out");
+  $("#Frontpage").addClass("out");
+  // EFFECT ON RECIPE Cards
+  window.setTimeout(function(){
+    $("#"+recipeId).addClass("fadeaway");
+  }, 100);
+  window.setTimeout(function(){
+    addToFoodPlan(recipeId)
+    $("#Frontpage").remove();
+  }, 400);
+
 }
 
+
+var dist = 140;
 function addToFoodPlan(recipeId){
+  // MAKE GROCERYLIST
   var indexOfId = idInArray(allRecipes.allOpskrifts, recipeId);
   var persons = 2;
   allRecipes.allOpskrifts[indexOfId].ingrediensers.forEach(function (v) {
@@ -61,18 +89,24 @@ function addToFoodPlan(recipeId){
        groceryList.push({id: v.ingredienseTypes[0].id, name: v.ingredienseTypes[0].name, amount: (v.amount*persons), unit: v.ingredienseTypes[0].unitses[0].shorthand, bulk: v.ingredienseTypes[0].bulk, group: v.ingredienseTypes[0].group, leftover: leftover });
      }
   });
-  foodPlan.push({day: (foodPlan.length + 1), recipieid: allRecipes.allOpskrifts[indexOfId].id, name: allRecipes.allOpskrifts[indexOfId].name});
+  foodPlan.push({day: (foodPlan.length + 1), recipieid: allRecipes.allOpskrifts[indexOfId].id, name: allRecipes.allOpskrifts[indexOfId].name, colorProfile: allRecipes.allOpskrifts[indexOfId].colorProfile});
   allRecipes.allOpskrifts[indexOfId].inFoodplan = true;
 
-  // MAKE FOODPLAN GUIL LIST
+  // UPDATE FOODPLAN DRAW
+  var compiledTemplate = Handlebars.compile( $("#Foodplan-draw").html() );
+  var generatedTemplate = compiledTemplate(foodPlan);
+  $("#foodPlan-Draw-Calendar").html(generatedTemplate);
 
+
+
+
+  // MAKE FOODPLAN BUILD LIST
   var compiledTemplate = Handlebars.compile( $("#Foodplan-Build").html() );
   var generatedTemplate = compiledTemplate(foodPlan);
   $("#Foodplan-Build-List").html(generatedTemplate);
   makeGroseryListTest("groceryList-to-Test", groceryList);
 
   // MAKE RECIPES TO TEST
-
   newOrderArray();
   makePreviewRecipeList();
   makeCarousel();
@@ -86,9 +120,6 @@ function makeGroseryListTest(id, arr){
   var generatedTemplate = compiledTemplate(arr);
   $("#groceryList-to-Test").html(generatedTemplate);
 }
-
-
-
 
 function compareActiveRecipeAndGroceryList(activeRecipeID){
   var testGroceryList =[];
@@ -146,7 +177,7 @@ function makeCarousel(){
   $("li#foodplan").removeClass("d-none");
   $("#Recipe-List").itemslide({
       //start: 1,
-      one_item: true,
+      one_item: false,
       duration: 500,
   });
   $(window).resize(function () {
@@ -158,6 +189,42 @@ function makeCarousel(){
           var activeId = $("li.itemslide-active").attr("id")
           compareActiveRecipeAndGroceryList(activeId);
   });
+  $("ul.recipe-list").on('touchstart', function(e){
+    e.preventDefault();
+  });
+  $(".previewRecipe-head").on('touchstart', function(e){
+    e.preventDefault();
+  });
+  $(".previewRecipe-footer").on('touchstart', function(e){
+    e.preventDefault();
+  });
+  $(".pointer-event-all").on('touchstart', function(e){
+    e.preventDefault();
+  });
+}
+
+function makeBulkPicker(id) {
+  var start = parseInt($("#"+id+"-bulkPicker li").text()) - 1 ;
+  makeBulkPickerNextandPrev($("#"+id+"-bulkPicker li"));
+  $(".bulkPicker").addClass("d-none"); // make close, and auto pick active
+  $("#"+id).find(".bulkPicker").removeClass("d-none");
+
+  $("#"+id+"-bulkPicker").itemslide({
+      //start: 1,
+      one_item: false,
+      duration: 500,
+      start: start
+  });
+}
+
+function makeBulkPickerNextandPrev(center){
+  var bulk = parseInt(center.text());
+  for(var i = 1; i < bulk; i++){
+    center.before("<li><h5>"+i+"</h5></li>");
+  }
+  for(var i = 16; i > bulk; i--){
+    center.after("<li><h5>"+i+"</h5></li>");
+  }
 }
 
 function newOrderArray(){

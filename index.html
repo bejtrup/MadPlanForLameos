@@ -6,10 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
   <title>Mealzebub</title>
   <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300|Sumana" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="Css/index.min.css" />
+  <link rel="stylesheet" type="text/css" href="Css/index.min.css?version=1" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
   <script type="text/javascript" src="./src/itemslide.min.js"></script>
   <script type="text/javascript" src="./src/handlebars-v4.0.10.js"></script>
+  <!-- <script type="text/javascript" src="./src/jquery.scrollme.min.js"></script> -->
+  <script type="text/javascript" src="./src/jquery.touchSwipe.min.js"></script>
   <script src="./src/graphql.js"></script>
   <script>
   $(document).ready(function(){
@@ -17,8 +20,7 @@
   });
   </script>
 </head>
-<body>
-  <div class="body">
+<body >
     <div class="navbar">
       <div class="navbar-left"></div>
       <div class="navbar-middle bavbar-brand">
@@ -27,17 +29,22 @@
       <div class="navbar-right"></div>
     </div>
 
+    <div id="foodPlan-Draw" class="foodPlan-draw col-12 pt-5 h-25 bg-secondary in">
+      <!-- <h5>Din madplan</h5> -->
+      <div id="foodPlan-Draw-Calendar"></div>
+    </div>
+
     <div id="Frontpage" class="frontpage"></div>
 
+    <div id="Foodplan-Build-List" class=foodplan-build-list></div>
+
     <div id="Carousel" class=carousel>
-      <div id="Foodplan-Build-List" class=foodplan-build-list></div>
       <ul id="Recipe-List" class="recipe-list m-0 p-0"></ul>
     </div>
-  </div>
 
   <script id="recipe-cards" type="text/x-handlebars-template">
     {{#each allOpskrifts}}
-    <div id="{{id}}" class="col-11 mx-auto mb-3 p-3 color-profile-{{colorProfile}}">
+    <div id="{{id}}" class="ecipe-cards col-11 mx-auto mb-3 p-3 color-profile-{{colorProfile}}">
       <div class="col-12 p-0">
         <h3>{{name}}</h3>
         {{#each ingrediensers}}
@@ -51,33 +58,39 @@
     {{/each}}
   </script>
 
-  <script id="Foodplan-Build" type="text/x-handlebars-template">
-      <div class="previewRecipe-head bg-secondary col-12 pt-5">
-        <h3>Din aktive mad plan:</h3>
-        {{#each this}}
-        <h5>dag: {{day}}: {{name}}</h5>
-        {{/each}}
+  <script id="Foodplan-draw" class="foodplan-build" type="text/x-handlebars-template">
+    {{#each this}}
+    <div class="row align-items-center mb-2">
+      <div class="col-2"><h6>dag: {{day}}</h6></div>
+      <div class="col-9 p-2 color-profile-{{colorProfile}}"><h4 class="m-0">{{name}}</h4></div>
+    </div>
+    {{/each}}
+    <div class="row align-items-center">
+      <div class="col-2"><h6>dag: 2</h6></div>
+      <div class="col-9 p-2"><h4 class="m-0"><- Swipe for at se forslag</h4></div>
+    </div>
+  </script>
+
+  <script id="Foodplan-Build" class="foodplan-build" type="text/x-handlebars-template">
+      <div id="body-mask" class="body-mask">
+        <div class="body col-12">
+          <div class="text-center pt-2">
+            <h4><b>Ingrediensliste</b></h3>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <h6>Skal bruge</h6>
+              </div>
+              <div class="col-2 text-center">
+                <h6>Har</h6>
+              </div>
+              <div class="col-2 text-right">
+                <h6>Rest</h6>
+              </div>
+            </div>
+            <div id="groceryList-to-Test"></div>
+        </div>
       </div>
-      <div class="previewRecipe-body col-12">
-        <div class="text-center pt-2">
-          <h4><b>Ingrediensliste</b></h3>
-        </div>
-          <div class="row">
-            <div class="col-6">
-              <h6>Skal bruge</h6>
-            </div>
-            <div class="col-2 text-center">
-              <h6>Har</h6>
-            </div>
-            <div class="col-2 text-right">
-              <h6>Rest</h6>
-            </div>
-          </div>
-          <div id="groceryList-to-Test"></div>
-        </div>
-        <div class="previewRecipe-footer">
-          <button onclick="">FÆRDIG</button>
-        </div>
   </script>
 
     <script id="previewRecipes" type="text/x-handlebars-template">
@@ -85,16 +98,18 @@
       {{#each 0.allOpskrifts}}
       {{#unless inFoodplan}}
       <li id="{{id}}" class="previewRecipe">
-        <div class="previewRecipe-head px-3 pt-5 color-profile-{{colorProfile}}">
-          <h3>{{name}}</h3>
-          {{#each ingrediensers}}
+        <div class="h-100 pt-5">
+          <div class="row mx-0 align-items-center" style="margin-top: 45px;">
+            <div class="col-2"></div>
+            <div class="col-9 p-2 color-profile-{{colorProfile}}"><h4 class="m-0">{{name}}</h4></div>
+          </div>
+
+          <!-- {{#each ingrediensers}}
           <h5 class="d-inline-block">{{ingredienseTypes.0.name}}</h5>
-          {{/each}}
-        </div>
-        <div class="previewRecipe-footer text-center">
-          <button class="btn btn-secondary" onclick="addToFoodPlan('{{id}}');">
+          {{/each}} -->
+          <!-- <button class="btn btn-secondary" onclick="addToFoodPlan('{{id}}');">
             <h5>Vælg</h5>
-          </button>
+          </button> -->
         </div>
       </li>
       {{/unless}}
@@ -104,21 +119,28 @@
 <script id="groceryListTest" type="text/x-handlebars-template">
   {{#each this}}
   <!-- <h6>{{groceryGroup group}}</h6> -->
-  <div id="{{id}}" class="row {{#if isTested}}isTested{{/if}} {{#if isAddedToList}}isAddedToList{{/if}}">
-    <div class="col-2 px-0 text-right">
-      <h5>{{amount}} <span>{{unit}}.</span></h5>
+  <div id="{{id}}" class="bulkPickerWrapper row {{#if isTested}}isTested{{/if}} {{#if isAddedToList}}isAddedToList{{/if}}">
+    <div class="bulkPicker row bg-secondary d-none">
+      <ul id="{{id}}-bulkPicker">
+        <li><h5>{{bulk}}</h5></li>
+      </ul>
     </div>
-    <div class="col-4 px-2">
+    <div class="col-2 px-0 d-flex justify-content-end align-items-center">
+      <h5 class="mr-1">{{amount}}</h5>
+      <h6>{{unit}}.</h6>
+    </div>
+    <div class="col-4 px-2 d-flex align-items-center">
       <h5>{{name}}</h5>
     </div>
-    <div class="col-2 px-0 text-center">
-      <div class="bulkSelector">
-        <h5>{{bulk}}{{#unless bulk}}?{{/unless}} <span>{{unit}}.</span></h5>
+    <div class="col-2 px-0 d-flex justify-content-start align-items-center">
+      <div class="bulkSelector text-center mr-1" onclick="makeBulkPicker('{{id}}');">
+        <h5>{{bulk}}{{#unless bulk}}?{{/unless}}</h5>
       </div>
+      <h6>{{unit}}.</h6>
     </div>
     <div class="col-2 px-0 text-right">
       <div class="leftover">
-      <h5>{{leftover}} <span>{{unit}}.</span></h5>
+      <h6>{{leftover}} {{unit}}.</h6>
       </div>
     </div>
     <div class="col-2  text-right">
