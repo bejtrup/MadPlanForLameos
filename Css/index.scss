@@ -71,6 +71,8 @@ $i: 1;
 $transitionTime: .3s;
 .frontpage{
   padding-top: 50px;
+  max-height: 100vh;
+  overflow: auto;
   div{
     z-index: 200;
   }
@@ -96,10 +98,10 @@ $transitionTime: .3s;
 }
 /*:::::Foodplan Draw:::::*/
 .foodPlan-draw{
-  position: fixed;
   top: 0;
   transition: transform $transitionTime linear;
   &.in {
+    position: fixed;
     transform: translateY(-25vh);
   }
   &.out {
@@ -109,23 +111,13 @@ $transitionTime: .3s;
 
 /*:::::SAMMENLIGN-SIDE:::::*/
 .foodplan-build-list{
-  height: 100%;
-  .head {
-    height: 100%;;
-    pointer-events: all;
-  }
-  .body-mask{
-    position: fixed;
     top:25vh;
     left: 0;
     right: 0;
-    bottom: 70px;
-    overflow: hidden;
+    bottom: 10vh;
     background: #fff;
     z-index: 101;
-  }
   .body {
-    height: 2001px;
     h5,h6 {
       margin: 0;
     }
@@ -153,42 +145,37 @@ $transitionTime: .3s;
 }
 
 .carousel{
-  position: fixed;
-  top: 0;
+  position: absolute;
+  top: 10vh;
   left: 0;
   right: 0;
-  bottom: 0;
+  height: 100%; /*ikke vh da den i chrome er uden urlbar*/
   overflow-x: hidden;
   overflow-y: hidden;
   z-index: 100;
-  ul.recipe-list {
-    position: absolute;
-    left: 0;
-    height: 100%;
-    -webkit-transform-style: preserve-3d;
-    -ms-transform-style: preserve-3d;
-    -moz-transform-style: preserve-3d;
-    transform-style: preserve-3d;
-    list-style-type: none;
+  .previewRecipe {
+    outline: none;
   }
-  li.previewRecipe {
-    position: relative;
-    margin: 0;
-    padding: 0;
-    float: left;
-    width: 100vw;
-    height: 100%;
-    list-style-type: none;
-
-    &.itemslide-active
-    {/*applied to current active item*/
-      -webkit-transform:  scale(1);
-      -ms-transform:  scale(1);
-      -moz-transform:  scale(1);
-      transform: scale(1);
-    }
+  .previewRecipe-footer{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 20vh;
   }
 }
+.carousel--next-prev {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 10vh;
+  background:#efefef;
+}
+
+
+
+
 .bulkPickerWrapper{
   position: relative;
   .bulkPicker{

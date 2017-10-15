@@ -6,15 +6,27 @@ var groceryList =[];
 
 
 function fetchAllRecipes() {
-  $.post({
-    url: graphQLEndpoint,
-    data: JSON.stringify({ "query": "{ allOpskrifts{ id name ingrediensers{ amount ingredienseTypes{ id name bulk group unitses{ name shorthand }  } } } }" }),
-    contentType: 'application/json'
-  }).done(function(response) {
+
+
+//...
+  var allRecipesStored = JSON.parse(localStorage.getItem("allRecipes"));
+  if(allRecipesStored === null){
+    console.log("Getting Data online");
+    $.post({
+      url: graphQLEndpoint,
+      data: JSON.stringify({ "query": "{ allOpskrifts{ id name ingrediensers{ amount ingredienseTypes{ id name bulk group unitses{ name shorthand }  } } } }" }),
+      contentType: 'application/json'
+    }).done(function(response) {
       allRecipes = response.data;
       adsColorProfileToAllRecipes();
+      localStorage.setItem("allRecipes", JSON.stringify(allRecipes));
       initPage();
-  });
+    });
+  } else {
+    allRecipes = allRecipesStored;
+    console.log("from localStorage");
+    initPage();
+  }
 }
 
 function adsColorProfileToAllRecipes(){
@@ -39,7 +51,6 @@ function makeFrontpage() {
 }
 
 function beginNewFoodplan(recipeId){
-  //$("#Frontpage").html('');
   // MAKE ELEMENT ABSOLUTE
   var top = $("#"+recipeId).offset().top - $(window).scrollTop();
   var left = $("#"+recipeId).offset().left;
@@ -52,8 +63,6 @@ function beginNewFoodplan(recipeId){
     left: left
   }).removeClass("ecipe-cards");
 
-
-
   // FOODPLAN DRAW OUT
   $("#foodPlan-Draw").removeClass("in").addClass("out");
   $("#Frontpage").addClass("out");
@@ -63,9 +72,9 @@ function beginNewFoodplan(recipeId){
   }, 100);
   window.setTimeout(function(){
     addToFoodPlan(recipeId)
+    $("#CarouselNextPrev").removeClass("d-none");
     $("#Frontpage").remove();
   }, 400);
-
 }
 
 
@@ -96,9 +105,6 @@ function addToFoodPlan(recipeId){
   var compiledTemplate = Handlebars.compile( $("#Foodplan-draw").html() );
   var generatedTemplate = compiledTemplate(foodPlan);
   $("#foodPlan-Draw-Calendar").html(generatedTemplate);
-
-
-
 
   // MAKE FOODPLAN BUILD LIST
   var compiledTemplate = Handlebars.compile( $("#Foodplan-Build").html() );
@@ -174,47 +180,57 @@ function SortByGroup(a, b) {
 }
 
 function makeCarousel(){
-  $("li#foodplan").removeClass("d-none");
-  $("#Recipe-List").itemslide({
-      //start: 1,
-      one_item: false,
-      duration: 500,
+  $("#Recipe-List").slick({
+    dots: false,
+    infinite: false,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    mobileFirst: true,
+    // edgeFriction: 1,
+    arrows: false,
+    // appendArrows: $("#Carousel-Footer"),
+    // prevArrow: '<button type="button" class="slick-prev">Previous</button>',
+    // nextArrow: '<button type="button" class="slick-next">Next</button>'
   });
-  $(window).resize(function () {
-        $("#Recipe-List").reload();
+  $("#Recipe-List .slick-list").addClass("h-100");
+  $("#Recipe-List .slick-track").addClass("h-100");
 
-    });
-  $("#Recipe-List").on('changeActiveIndex', function(e) {
-          //console.log( $("#recipe-list").getActiveIndex() );
-          var activeId = $("li.itemslide-active").attr("id")
-          compareActiveRecipeAndGroceryList(activeId);
+
+  // $("li#foodplan").removeClass("d-none");
+  // $("#Recipe-List").itemslide({
+  //     //start: 1,
+  //     one_item: true,
+  //     duration: 500,
+  // });
+  // $(window).resize(function () {
+  //       $("#Recipe-List").reload();
+  //
+  //   });
+  // $("#Recipe-List").on('changeActiveIndex', function(e) {
+  //         //console.log( $("#recipe-list").getActiveIndex() );
+  //         var activeId = $("li.itemslide-active").attr("id")
+  //         compareActiveRecipeAndGroceryList(activeId);
+  // });
+  $("#Recipe-List").on('afterChange', function(event, slick, currentSlide){
+    var activeId = $(this).find("div.slick-active").attr("id")
+    console.log(currentSlide, activeId);
   });
-  $("ul.recipe-list").on('touchstart', function(e){
-    e.preventDefault();
-  });
-  $(".previewRecipe-head").on('touchstart', function(e){
-    e.preventDefault();
-  });
-  $(".previewRecipe-footer").on('touchstart', function(e){
-    e.preventDefault();
-  });
-  $(".pointer-event-all").on('touchstart', function(e){
-    e.preventDefault();
-  });
+
 }
 
 function makeBulkPicker(id) {
-  var start = parseInt($("#"+id+"-bulkPicker li").text()) - 1 ;
-  makeBulkPickerNextandPrev($("#"+id+"-bulkPicker li"));
-  $(".bulkPicker").addClass("d-none"); // make close, and auto pick active
-  $("#"+id).find(".bulkPicker").removeClass("d-none");
-
-  $("#"+id+"-bulkPicker").itemslide({
-      //start: 1,
-      one_item: false,
-      duration: 500,
-      start: start
-  });
+  alert("ssss::"+id)
+  // var start = parseInt($("#"+id+"-bulkPicker li").text()) - 1 ;
+  // makeBulkPickerNextandPrev($("#"+id+"-bulkPicker li"));
+  // $(".bulkPicker").addClass("d-none"); // make close, and auto pick active
+  // $("#"+id).find(".bulkPicker").removeClass("d-none");
+  //
+  // $("#"+id+"-bulkPicker").itemslide({
+  //     //start: 1,
+  //     one_item: false,
+  //     duration: 500,
+  //     start: start
+  // });
 }
 
 function makeBulkPickerNextandPrev(center){
