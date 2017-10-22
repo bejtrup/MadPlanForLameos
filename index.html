@@ -6,7 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
   <title>Mealzebub</title>
   <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300|Sumana" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="Css/index.min.css?version=1" />
+  <link rel="stylesheet" href="Css/font-awesome-4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="Css/index.min.css?version=2" />
   <link rel="stylesheet" type="text/css" href="./src/slick.css" />
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -22,6 +23,32 @@
   <script>
   $(document).ready(function(){
     fetchAllRecipes();
+
+    $("#keypad").on("click", ".key", function(){
+      var val = $(this).attr('data-val');
+      console.log(val);
+    });
+
+    // $(window).on("scroll", function(){
+    //   var scrollDist = $(this).scrollTop();
+    //   var topBreakpouin = $(".recipe-cards").offset().top - 50;
+    //     console.log("scrolling "+scrollDist);
+    //     if (scrollDist > topBreakpouin && !$(".recipe-cards").hasClass("compact")){
+    //       $(".recipe-cards").addClass("compact");
+    //       // $('html, body').animate({
+    //       //     scrollTop: 112
+    //       // }, 500);
+    //
+    //     }
+    //     if (scrollDist > 5){
+    //       $(".recipe-cards").removeClass("compact");
+    //       // $('html, body').animate({
+    //       //     scrollTop: 112
+    //       // }, 500);
+    //
+    //     }
+    // });
+
   });
   </script>
 </head>
@@ -34,45 +61,90 @@
       <div class="navbar-right"></div>
     </div>
 
-      <div id="foodPlan-Draw" class="foodPlan-draw col-12 pt-5 h-25 bg-secondary in">
-        <div id="foodPlan-Draw-Calendar"></div>
-      </div>
-    <div id="Frontpage" class="frontpage"></div>
+    <!-- <div id="foodPlan-Draw" class="foodPlan-draw col-12 pt-5 h-25 bg-light in">
+      <div id="foodPlan-Draw-Calendar"></div>
+    </div> -->
+
+    <div id="RecipeContainer" class="recipeContainer"></div>
 
     <div id="Foodplan-Build-List" class=foodplan-build-list></div>
 
-    <div id="Carousel" class="carousel">
+    <div id="Carousel" class="carousel d-none">
       <div id="Recipe-List" class="h-100"></div>
     </div>
 
-    <div id="CarouselNextPrev" class="row carousel--next-prev">
-      <div class="col-6">
-        <
-      </div>
-      <div class="col-6">
-        >
+    <div id="keypad" class="keypadwrapper row bg-light">
+        <div data-val="1" class="col-4 text-center py-3 key">
+            <h3>1</h3>
+        </div>
+        <div data-val="2" class="col-4 text-center py-3 key">
+            <h3>2</h3>
+        </div>
+        <div data-val="3" class="col-4 text-center py-3 key">
+            <h3>3</h3>
+        </div>
+        <div data-val="4" class="col-4 text-center py-3 key">
+            <h3>4</h3>
+        </div>
+        <div data-val="5" class="col-4 text-center py-3 key">
+            <h3>5</h3>
+        </div>
+        <div data-val="6" class="col-4 text-center py-3 key">
+            <h3>6</h3>
+        </div>
+        <div data-val="7" class="col-4 text-center py-3 key">
+            <h3>7</h3>
+        </div>
+        <div data-val="8" class="col-4 text-center py-3 key">
+            <h3>8</h3>
+        </div>
+        <div data-val="9" class="col-4 text-center py-3 key">
+            <h3>9</h3>
+        </div>
+        <div data-val="back" class="col-4 text-center py-3 key">
+            <h3><i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i></h3>
+        </div>
+        <div data-val="0" class="col-4 text-center py-3 key">
+            <h3>0</h3>
+        </div>
+        <div data-val="submit" class="col-4 text-center py-3 key">
+            <h3><i class="fa fa-check" aria-hidden="true"></i></h3>
+        </div>
+    </div>
+
+    <div id="CarouselNextPrev" class="row carousel--next-prev d-none">
+      <div class="col-6 d-flex align-items-center justify-content-center order-2">
+        <button type="button" name="button" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> Tilføj til plan</button>
       </div>
     </div>
 
 
 
   <script id="recipe-cards" type="text/x-handlebars-template">
-    {{#each allOpskrifts}}
-    <div id="{{id}}" class="ecipe-cards col-11 mx-auto mb-3 p-3 color-profile-{{colorProfile}}">
-      <div class="col-12 p-0">
-        <h3>{{name}}</h3>
-        {{#each ingrediensers}}
-        <h5 class="d-inline-block">{{ingredienseTypes.0.name}}</h5>
-        {{/each}}
-      </div>
-      <div class="col-12 text-center">
-        <button class="btn btn-primary" onclick="beginNewFoodplan('{{id}}');">Vælg</button>
+    {{#each this}}
+    {{#unless inFoodplan}}
+    <div id="{{id}}" class="recipe-cards">
+      <div class="row m-0 pt-3 px-3">
+        <div class="head d-flex align-items-center col-12 p-3 color-profile-{{colorProfile}}">
+          <h3 class="m-0">{{name}}</h3>
+        </div>
+        <!-- <div class="body col-12 px-3 color-profile-{{colorProfile}}">
+        </div> -->
+        <div class="footer row col-12 align-items-center px-3 m-0 color-profile-{{colorProfile}}">
+          <div class="col pl-0 ">
+            {{#each ingrediensers}}
+            <h5 class="d-inline-block m-0">{{ingredienseTypes.0.name}}</h5>
+            {{/each}}
+          </div>
+          <button class="col btn btn-primary btn-circle" onclick="beginNewFoodplan('{{id}}');"><i class="fa fa-plus"></i></button>
+        </div>
       </div>
     </div>
+    {{/unless}}
     {{/each}}
   </script>
 
-  <script id="Foodplan-draw" class="foodplan-build" type="text/x-handlebars-template">
+   <!-- <script id="Foodplan-draw" type="text/x-handlebars-template">
     {{#each this}}
     <div class="row align-items-center mb-2">
       <div class="col-2"><h6>dag: {{day}}</h6></div>
@@ -83,9 +155,9 @@
       <div class="col-2"><h6>dag: 2</h6></div>
       <div class="col-9 p-2"><h4 class="m-0"><- Swipe for at se forslag</h4></div>
     </div>
-  </script>
+  </script> -->
 
-  <script id="Foodplan-Build" class="foodplan-build" type="text/x-handlebars-template">
+  <script id="Foodplan-Build" type="text/x-handlebars-template">
         <div class="body col-12">
           <div class="text-center pt-2">
             <h4><b>Ingrediensliste</b></h3>
@@ -105,22 +177,15 @@
         </div>
   </script>
 
-    <script id="previewRecipes" type="text/x-handlebars-template">
+    <!-- <script id="previewRecipes" type="text/x-handlebars-template">
       <div class="previewRecipe">
-        <div class="col-12 p-0 h-100">
-          <div class="row m-0 previewRecipe-footer">
-            <div class="col-6 h-100" onclick="$('#Recipe-List').slick('slickNext');">
-            </div>
-            <div class="col-6 h-100">
-            </div>
-          </div>
-        </div>
+
       </div>
       {{#each 0.allOpskrifts}}
       {{#unless inFoodplan}}
       <div id="{{id}}" class="previewRecipe">
-        <div class="col-12 p-0 h-100">
-          <div class="row mx-0 align-items-center" style="padding-top: 95px;">
+        <div class="col-12 p-0 pt-4 h-100">
+          <div class="row mx-0 align-items-center">
             <div class="col-2"></div>
             <div class="col-9 p-2 color-profile-{{colorProfile}}">
               <div class="row">
@@ -128,29 +193,27 @@
                   <h4 class="m-0">{{name}}</h4>
                 </div>
                 <div class="col-3">
-                  <button class="btn btn-secondary" onclick="addToFoodPlan('{{id}}');">
-                    <h5>Vælg</h5>
-                  </button>
+                  <button class="btn btn-secondary btn-circle" onclick="addToFoodPlan('{{id}}');">
+                    <i class="fa fa-plus"></i>
                 </div>
               </div>
             </div>
           </div>
-          <div class="row m-0 previewRecipe-footer bg-warning">
-            <div class="col-6 h-100 bg-primary" onclick="$('#Recipe-List').slick('slickNext');">
+          <div class="row m-0 previewRecipe-footer">
+            <div class="col-6 h-100" onclick="$('#Recipe-List').slick('slickNext');">
             </div>
             <div class="col-6 h-100 " onclick="$('#Recipe-List').slick('slickPrev');">
             </div>
           </div>
-          <!-- {{#each ingrediensers}}
+          {{#each ingrediensers}}
           <h5 class="d-inline-block">{{ingredienseTypes.0.name}}</h5>
-          {{/each}} -->
-          <!-- -->
+          {{/each}}
         </div>
       </div>
       {{/unless}}
       {{/each}}
 
-</script>
+</script> -->
 
 <script id="groceryListTest" type="text/x-handlebars-template">
   {{#each this}}
@@ -185,38 +248,6 @@
   </div>
   {{/each}}
 
-
-  {{#each this}}
-  <!-- <h6>{{groceryGroup group}}</h6> -->
-  <div id="{{id}}" class="bulkPickerWrapper row {{#if isTested}}isTested{{/if}} {{#if isAddedToList}}isAddedToList{{/if}}">
-    <div class="bulkPicker row bg-secondary d-none">
-      <ul id="{{id}}-bulkPicker">
-        <li><h5>{{bulk}}</h5></li>
-      </ul>
-    </div>
-    <div class="col-2 px-0 d-flex justify-content-end align-items-center">
-      <h5 class="mr-1">{{amount}}</h5>
-      <h6>{{unit}}.</h6>
-    </div>
-    <div class="col-4 px-2 d-flex align-items-center">
-      <h5>{{name}}</h5>
-    </div>
-    <div class="col-2 px-0 d-flex justify-content-start align-items-center">
-      <div class="bulkSelector text-center mr-1" onclick="makeBulkPicker('{{id}}');">
-        <h5>{{bulk}}{{#unless bulk}}?{{/unless}}</h5>
-      </div>
-      <h6>{{unit}}.</h6>
-    </div>
-    <div class="col-2 px-0 text-right">
-      <div class="leftover">
-      <h6>{{leftover}} {{unit}}.</h6>
-      </div>
-    </div>
-    <div class="col-2  text-right">
-      <div class="checkbox"></div>
-    </div>
-  </div>
-  {{/each}}
 </script>
 </body>
 </html>

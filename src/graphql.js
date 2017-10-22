@@ -5,10 +5,8 @@ var foodPlan = [];
 var groceryList =[];
 
 
+
 function fetchAllRecipes() {
-
-
-//...
   var allRecipesStored = JSON.parse(localStorage.getItem("allRecipes"));
   if(allRecipesStored === null){
     console.log("Getting Data online");
@@ -41,40 +39,43 @@ function adsColorProfileToAllRecipes(){
 
 function initPage(){
   makeFrontpage();
-  //makePreviewRecipeList();
+  //makeCarouselRecipeCardList();
 }
 
 function makeFrontpage() {
   var compiledTemplate = Handlebars.compile( $("#recipe-cards").html() );
-  var generatedTemplate = compiledTemplate(allRecipes);
-  $("#Frontpage").html(generatedTemplate);
+  var generatedTemplate = compiledTemplate(allRecipes.allOpskrifts);
+  $("#RecipeContainer").html(generatedTemplate);
 }
 
 function beginNewFoodplan(recipeId){
+  $("#"+recipeId).siblings().remove();
+  $("#"+recipeId).addClass("compact");
+  $("#Carousel").removeClass("d-none");
   // MAKE ELEMENT ABSOLUTE
-  var top = $("#"+recipeId).offset().top - $(window).scrollTop();
-  var left = $("#"+recipeId).offset().left;
-  var height = $("#"+recipeId).outerHeight();
+  // var top = $("#"+recipeId).offset().top - $(window).scrollTop();
+  // var left = $("#"+recipeId).offset().left;
+  // var height = $("#"+recipeId).outerHeight();
 
-  $("#"+recipeId).next().css("margin-top", height+32 );
-  $("#"+recipeId).css({
-    position: "fixed",
-    top: top,
-    left: left
-  }).removeClass("ecipe-cards");
+  // $("#"+recipeId).next().css("margin-top", height+32 );
+  // $("#"+recipeId).css({
+  //   position: "fixed",
+  //   top: top,
+  //   left: left
+  // }).removeClass("ecipe-cards");
 
   // FOODPLAN DRAW OUT
-  $("#foodPlan-Draw").removeClass("in").addClass("out");
-  $("#Frontpage").addClass("out");
+  // $("#foodPlan-Draw").removeClass("in").addClass("out");
+  // $("#Frontpage").addClass("out");
   // EFFECT ON RECIPE Cards
-  window.setTimeout(function(){
-    $("#"+recipeId).addClass("fadeaway");
-  }, 100);
-  window.setTimeout(function(){
-    addToFoodPlan(recipeId)
-    $("#CarouselNextPrev").removeClass("d-none");
-    $("#Frontpage").remove();
-  }, 400);
+  // window.setTimeout(function(){
+  //   $("#"+recipeId).addClass("fadeaway");
+  // }, 100);
+  // window.setTimeout(function(){
+     addToFoodPlan(recipeId)
+     $("#CarouselNextPrev").removeClass("d-none");
+  //   $("#Frontpage").remove();
+  // }, 400);
 }
 
 
@@ -101,20 +102,22 @@ function addToFoodPlan(recipeId){
   foodPlan.push({day: (foodPlan.length + 1), recipieid: allRecipes.allOpskrifts[indexOfId].id, name: allRecipes.allOpskrifts[indexOfId].name, colorProfile: allRecipes.allOpskrifts[indexOfId].colorProfile});
   allRecipes.allOpskrifts[indexOfId].inFoodplan = true;
 
-  // UPDATE FOODPLAN DRAW
-  var compiledTemplate = Handlebars.compile( $("#Foodplan-draw").html() );
-  var generatedTemplate = compiledTemplate(foodPlan);
-  $("#foodPlan-Draw-Calendar").html(generatedTemplate);
+  // // DRAW
+  // var compiledTemplate = Handlebars.compile( $("#recipe-cards").html() );
+  // var generatedTemplate = compiledTemplate(foodPlan);
+  // $("#foodPlan-Draw-Calendar").html(generatedTemplate);
 
   // MAKE FOODPLAN BUILD LIST
+    // MAKE HEADER FOR INGRIDIENS LIST
   var compiledTemplate = Handlebars.compile( $("#Foodplan-Build").html() );
   var generatedTemplate = compiledTemplate(foodPlan);
   $("#Foodplan-Build-List").html(generatedTemplate);
+    // MAKE THE LIST
   makeGroseryListTest("groceryList-to-Test", groceryList);
 
   // MAKE RECIPES TO TEST
   newOrderArray();
-  makePreviewRecipeList();
+  makeCarouselRecipeCardList();
   makeCarousel();
 
   return false;
@@ -153,13 +156,15 @@ function compareActiveRecipeAndGroceryList(activeRecipeID){
   makeGroseryListTest(activeRecipeID, testGroceryList);
 }
 
-function makePreviewRecipeList(){
-  var compiledTemplate = Handlebars.compile( $("#previewRecipes").html() );
-  var arraytosend = [];
-  arraytosend.push(allRecipes);
-  arraytosend.foodPlan = foodPlan;
-  var generatedTemplate = compiledTemplate(arraytosend);
-  $("#Recipe-List").html(generatedTemplate);
+function makeCarouselRecipeCardList(){
+  var compiledTemplate = Handlebars.compile( $("#recipe-cards").html() );
+  // var arraytosend = [];
+  // arraytosend.push(allRecipes);
+  // arraytosend.foodPlan = foodPlan;
+  // var generatedTemplate = compiledTemplate(arraytosend);
+  var generatedTemplate = compiledTemplate(allRecipes.allOpskrifts);
+  $("#Recipe-List").html('<div class="previewRecipe"><-swipe</div>');
+  $("#Recipe-List").append(generatedTemplate);
 }
 
 
@@ -187,10 +192,10 @@ function makeCarousel(){
     slidesToScroll: 1,
     mobileFirst: true,
     // edgeFriction: 1,
-    arrows: false,
-    // appendArrows: $("#Carousel-Footer"),
-    // prevArrow: '<button type="button" class="slick-prev">Previous</button>',
-    // nextArrow: '<button type="button" class="slick-next">Next</button>'
+    //arrows: false,
+    appendArrows: $("#CarouselNextPrev"),
+     prevArrow: '<div class="col d-flex align-items-center justify-content-center order-3 slick-prev"><i class="fa fa-chevron-right" aria-hidden="true"></i></div>',
+     nextArrow: '<div class="col d-flex align-items-center justify-content-center order-1 slick-next"><i class="fa fa-chevron-left" aria-hidden="true"></i></div>'
   });
   $("#Recipe-List .slick-list").addClass("h-100");
   $("#Recipe-List .slick-track").addClass("h-100");
@@ -219,7 +224,7 @@ function makeCarousel(){
 }
 
 function makeBulkPicker(id) {
-  alert("ssss::"+id)
+  $("#keypad").addClass("up");
   // var start = parseInt($("#"+id+"-bulkPicker li").text()) - 1 ;
   // makeBulkPickerNextandPrev($("#"+id+"-bulkPicker li"));
   // $(".bulkPicker").addClass("d-none"); // make close, and auto pick active
@@ -231,16 +236,6 @@ function makeBulkPicker(id) {
   //     duration: 500,
   //     start: start
   // });
-}
-
-function makeBulkPickerNextandPrev(center){
-  var bulk = parseInt(center.text());
-  for(var i = 1; i < bulk; i++){
-    center.before("<li><h5>"+i+"</h5></li>");
-  }
-  for(var i = 16; i > bulk; i--){
-    center.after("<li><h5>"+i+"</h5></li>");
-  }
 }
 
 function newOrderArray(){

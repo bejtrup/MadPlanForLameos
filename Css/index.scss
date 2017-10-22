@@ -1,17 +1,27 @@
 $h1-font-size: 2rem;
 $h2-font-size: 1.75rem;
-$h3-font-size: 1.5rem;
-$h4-font-size: 1.25rem;
+$h3-font-size: 1.3rem;
+$h4-font-size: 1.15rem;
 $h5-font-size: 1rem;
 $h6-font-size: .75rem;
+
+
 @import "Bootstrap/bootstrap.scss";
 
+.btn-circle {
+  border: 1px solid transparent;
+  border-radius: 2rem !important;
+  max-width: 2.4rem;
+  height: 2.4rem;
+  text-align: center;
+}
 
 html, body {
   position: relative;
   width: 100%;
   height: 100%;
   margin: 0;
+  // overflow: hidden;
 }
 * {
   box-sizing: border-box;
@@ -50,7 +60,7 @@ $i: 1;
   top: 0;
   left: 0;
   right: 0;
-  height: 50px;
+  height: 6vh;
   overflow-x: hidden;
   overflow-y: hidden;
   z-index: 500;
@@ -67,56 +77,86 @@ $i: 1;
     font-size: 22px;
   }
 }
-/* :::::FORSIDE:::::*/
+// recipeContainer //
 $transitionTime: .3s;
-.frontpage{
-  padding-top: 50px;
-  max-height: 100vh;
-  overflow: auto;
-  div{
-    z-index: 200;
+.recipeContainer{
+  padding-top: 6vh;
+  padding-bottom: 12vh;
+  // overflow: auto;
   }
-  &:empty {
-    display: none;
-  }
-  .fadeaway {
-    opacity: 1;
-    top: 80px!important;
-    transition: opacity 0.2s ease-in, top $transitionTime linear;
-    h5, button {
-      opacity: 0;
-      transition: opacity 0.2s ease-in;
+  .recipe-cards {
+    .head{
+      height: 8vh;
+      z-index: 10;
+    }
+    // .body {
+    //   transition: opacity 0.5s cubic-bezier(0.49, 1.05, 0.7, 1.02);
+    //   height: 5vh;
+    //   z-index: 8;
+    // }
+    .footer{
+      transition: transform 0.5s ease-out;
+      height: 8vh;
+      z-index: 5;
+    }
+    &.compact{
+      .footer{
+        transform: translateY(-8vh);
+      }
+      // .body {
+      //   opacity: 0;
+      // }
     }
   }
-  &.out{
-    transition: margin-top $transitionTime linear, opacity $transitionTime;
-    margin-top: 20vh;
-    .ecipe-cards{
-      opacity: 0;
-    }
-  }
-}
+  // div{
+  //   z-index: 200;
+  // }
+  // &:empty {
+  //   display: none;
+  // }
+  // .fadeaway {
+  //   opacity: 1;
+  //   top: 80px!important;
+  //   transition: opacity 0.2s ease-in, top $transitionTime linear;
+  //   h5, button {
+  //     opacity: 0;
+  //     transition: opacity 0.2s ease-in;
+  //   }
+  // }
+  // &.out{
+  //   transition: margin-top $transitionTime linear, opacity $transitionTime;
+  //   margin-top: 20vh;
+  //   .ecipe-cards{
+  //     opacity: 0;
+  //   }
+  // }
+
 /*:::::Foodplan Draw:::::*/
-.foodPlan-draw{
-  top: 0;
-  transition: transform $transitionTime linear;
-  &.in {
-    position: fixed;
-    transform: translateY(-25vh);
-  }
-  &.out {
-    transform: translateY(0);
-  }
-}
+// .foodPlan-draw{
+//   top: 0;
+//   transition: transform $transitionTime linear;
+//   &.in {
+//     position: fixed;
+//     transform: translateY(-25vh);
+//   }
+//   &.out {
+//     transform: translateY(0);
+//   }
+// }
 
 /*:::::SAMMENLIGN-SIDE:::::*/
 .foodplan-build-list{
-    top:25vh;
-    left: 0;
-    right: 0;
-    bottom: 10vh;
-    background: #fff;
-    z-index: 101;
+  // position: absolute;
+  //   top:25vh;
+  //   left: 0;
+  //   right: 0;
+  //   bottom: 10vh;
+  //   background: #fff;
+  //   z-index: 101;
+  //   overflow: scroll;
+height: 1000px;
+
+      padding-bottom: 15vh;
   .body {
     h5,h6 {
       margin: 0;
@@ -146,23 +186,23 @@ $transitionTime: .3s;
 
 .carousel{
   position: absolute;
-  top: 10vh;
+  top: 16vh;
   left: 0;
   right: 0;
-  height: 100%; /*ikke vh da den i chrome er uden urlbar*/
+  height: 30%; /*ikke vh da den i chrome er uden urlbar*/
   overflow-x: hidden;
   overflow-y: hidden;
   z-index: 100;
-  .previewRecipe {
-    outline: none;
-  }
-  .previewRecipe-footer{
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 20vh;
-  }
+  // .previewRecipe {
+  //   outline: none;
+  // }
+  // .previewRecipe-footer{
+  //   position: absolute;
+  //   bottom: 0;
+  //   left: 0;
+  //   right: 0;
+  //   height: 20vh;
+  // }
 }
 .carousel--next-prev {
   position: fixed;
@@ -212,4 +252,16 @@ $transitionTime: .3s;
       }
   }
 }
+}
+.keypadwrapper {
+  position: fixed;
+  left:0;
+  right: 0;
+  bottom: 0;
+  z-index: 200;
+  transition: transform 0.2s ease-out;
+  transform: translateY(100%);
+  &.up {
+    transform: translateY(0);
+  }
 }
