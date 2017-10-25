@@ -27,6 +27,9 @@
     $("#keypad").on("click", ".key", function(){
       var val = $(this).attr('data-val');
       console.log(val);
+      if(val == "submit"){
+        $("#keypad").removeClass("up");
+      }
     });
 
     // $(window).on("scroll", function(){
@@ -124,38 +127,24 @@
     {{#each this}}
     {{#unless inFoodplan}}
     <div id="{{id}}" class="recipe-cards">
-      <div class="row m-0 pt-3 px-3">
-        <div class="head d-flex align-items-center col-12 p-3 color-profile-{{colorProfile}}">
-          <h3 class="m-0">{{name}}</h3>
+      <div class="row m-3 p-0 color-profile-{{colorProfile}}">
+        <div class="col-4 px-0 d-flex justify-content-center align-items-center">
+          <div class="plate"></div>
         </div>
-        <!-- <div class="body col-12 px-3 color-profile-{{colorProfile}}">
-        </div> -->
-        <div class="footer row col-12 align-items-center px-3 m-0 color-profile-{{colorProfile}}">
-          <div class="col pl-0 ">
+        <div class="col py-3">
+          <h3 class="mb-3">{{name}}</h3>
+          <div class="row px-3">
             {{#each ingrediensers}}
-            <h5 class="d-inline-block m-0">{{ingredienseTypes.0.name}}</h5>
+            <h5 class="ingridiens d-inline-block m-0 pr-1">{{ingredienseTypes.0.name}}</h5>
             {{/each}}
           </div>
-          <button class="col btn btn-primary btn-circle" onclick="beginNewFoodplan('{{id}}');"><i class="fa fa-plus"></i></button>
+          <button class="col btn btn-primary btn-circle ml-auto" onclick="beginNewFoodplan('{{id}}');"><i class="fa fa-plus"></i></button>
         </div>
       </div>
     </div>
     {{/unless}}
     {{/each}}
   </script>
-
-   <!-- <script id="Foodplan-draw" type="text/x-handlebars-template">
-    {{#each this}}
-    <div class="row align-items-center mb-2">
-      <div class="col-2"><h6>dag: {{day}}</h6></div>
-      <div class="col-9 p-2 color-profile-{{colorProfile}}"><h4 class="m-0">{{name}}</h4></div>
-    </div>
-    {{/each}}
-    <div class="row align-items-center">
-      <div class="col-2"><h6>dag: 2</h6></div>
-      <div class="col-9 p-2"><h4 class="m-0"><- Swipe for at se forslag</h4></div>
-    </div>
-  </script> -->
 
   <script id="Foodplan-Build" type="text/x-handlebars-template">
         <div class="body col-12">
@@ -166,88 +155,45 @@
               <div class="col-6">
                 <h6>Skal bruge</h6>
               </div>
-              <div class="col-2 text-center">
+              <div class="col-2 px-0">
                 <h6>Har</h6>
               </div>
-              <div class="col-2 text-right">
+              <div class="col-2">
                 <h6>Rest</h6>
               </div>
             </div>
-            <div id="groceryList-to-Test"></div>
+            <div id="groceryList-to-Test" class="d-flex flex-column"></div>
         </div>
   </script>
-
-    <!-- <script id="previewRecipes" type="text/x-handlebars-template">
-      <div class="previewRecipe">
-
-      </div>
-      {{#each 0.allOpskrifts}}
-      {{#unless inFoodplan}}
-      <div id="{{id}}" class="previewRecipe">
-        <div class="col-12 p-0 pt-4 h-100">
-          <div class="row mx-0 align-items-center">
-            <div class="col-2"></div>
-            <div class="col-9 p-2 color-profile-{{colorProfile}}">
-              <div class="row">
-                <div class="col-9">
-                  <h4 class="m-0">{{name}}</h4>
-                </div>
-                <div class="col-3">
-                  <button class="btn btn-secondary btn-circle" onclick="addToFoodPlan('{{id}}');">
-                    <i class="fa fa-plus"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row m-0 previewRecipe-footer">
-            <div class="col-6 h-100" onclick="$('#Recipe-List').slick('slickNext');">
-            </div>
-            <div class="col-6 h-100 " onclick="$('#Recipe-List').slick('slickPrev');">
-            </div>
-          </div>
-          {{#each ingrediensers}}
-          <h5 class="d-inline-block">{{ingredienseTypes.0.name}}</h5>
-          {{/each}}
-        </div>
-      </div>
-      {{/unless}}
-      {{/each}}
-
-</script> -->
 
 <script id="groceryListTest" type="text/x-handlebars-template">
   {{#each this}}
   <!-- <h6>{{groceryGroup group}}</h6> -->
-  <div id="{{id}}" class="bulkPickerWrapper row {{#if isTested}}isTested{{/if}} {{#if isAddedToList}}isAddedToList{{/if}}">
-    <div class="bulkPicker row bg-secondary d-none">
-      <ul id="{{id}}-bulkPicker">
-        <li><h5>{{bulk}}</h5></li>
-      </ul>
-    </div>
+  <div id="{{id}}" class="row mb-2 {{#unless isAddedToList}}order-1{{/unless}} {{#if isAddedToList}}order-12{{/if}}">
     <div class="col-2 px-0 d-flex justify-content-end align-items-center">
-      <h5 class="mr-1">{{amount}}</h5>
-      <h6>{{unit}}.</h6>
+      <h5 class="mr-1 m-0">{{amount}}</h5>
+      <h6 class="m-0">{{unit}}.</h6>
     </div>
     <div class="col-4 px-2 d-flex align-items-center">
-      <h5>{{name}}</h5>
+      <h5 class="m-0">{{name}}</h5>
     </div>
+    {{#unless isAddedToList}}
     <div class="col-2 px-0 d-flex justify-content-start align-items-center">
-      <div class="bulkSelector text-center mr-1" onclick="makeBulkPicker('{{id}}');">
-        <h5>{{bulk}}{{#unless bulk}}?{{/unless}}</h5>
-      </div>
-      <h6>{{unit}}.</h6>
+      <h5 class="btn btn-secondary btn-circle mr-1" onclick="makeBulkPicker('{{id}}');">{{bulk}}{{#unless bulk}}?{{/unless}}</h5>
+      <h6 class="m-0">{{unit}}.</h6>
     </div>
-    <div class="col-2 px-0 text-right">
-      <div class="leftover">
-      <h6>{{leftover}} {{unit}}.</h6>
-      </div>
+    <div class="col-2 d-flex align-items-center justify-content-end {{leftoverColor leftover}} {{#if isTested}}isTested{{/if}}">
+        <h5 class="m-0 mr-1" style="color: inherit;">{{leftover}}</h5>
+        <h6 class="m-0" style="color: inherit;">{{unit}}.</h6>
     </div>
-    <div class="col-2  text-right">
-      <div class="checkbox"></div>
+    <div class="col-2 text-right">
+      <div class="btn btn-secondary btn-circle mr-1"><i class="fa fa-check text-light" aria-hidden="true"></i></div>
     </div>
+    {{/unless}}
   </div>
-  {{/each}}
 
+  {{/each}}
+  <h6 Class="order-11">Hvis du vælger denne opskrift skal du også bruge</h6>
 </script>
 </body>
 </html>

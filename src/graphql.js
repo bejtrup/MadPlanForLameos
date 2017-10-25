@@ -32,7 +32,7 @@ function adsColorProfileToAllRecipes(){
   allRecipes.allOpskrifts.forEach(function(item){
     item.colorProfile = count;
     count++
-    count = count > 5 ? 1 : count;
+    count = count > 15 ? 1 : count;
 
   });
 }
@@ -148,8 +148,8 @@ function compareActiveRecipeAndGroceryList(activeRecipeID){
           testGroceryList[ingrediensersIndex].isTested = true;
         } else {
           // ADD NEW ITEMS TO GROCERYLIST
-          // var leftover = ing.ingredienseTypes[0].bulk - (ing.amount*persons);
-          // testGroceryList.push({ id: ing.ingredienseTypes[0].id, name: ing.ingredienseTypes[0].name, amount:(ing.amount*persons),  unit: ing.ingredienseTypes[0].unitses[0].shorthand, bulk: ing.ingredienseTypes[0].bulk, group: ing.ingredienseTypes[0].group, leftover: leftover, isAddedToList: true});
+          var leftover = ing.ingredienseTypes[0].bulk - (ing.amount*persons);
+          testGroceryList.push({ id: ing.ingredienseTypes[0].id, name: ing.ingredienseTypes[0].name, amount:(ing.amount*persons),  unit: ing.ingredienseTypes[0].unitses[0].shorthand, bulk: ing.ingredienseTypes[0].bulk, group: ing.ingredienseTypes[0].group, leftover: leftover, isAddedToList: true});
         }
       });
   }
@@ -218,7 +218,7 @@ function makeCarousel(){
   // });
   $("#Recipe-List").on('afterChange', function(event, slick, currentSlide){
     var activeId = $(this).find("div.slick-active").attr("id")
-    console.log(currentSlide, activeId);
+    compareActiveRecipeAndGroceryList(activeId);
   });
 
 }
@@ -237,6 +237,12 @@ function makeBulkPicker(id) {
   //     start: start
   // });
 }
+
+
+// :::::::::::::::::ALKYRITMEN :::::::::::::::::::
+// husk ikke kigge på Basis (+1)
+// huske prioter + rest højt (+3)
+// husk prioter - rest middle (+2)
 
 function newOrderArray(){
   groceryList.forEach(function(item){
@@ -293,4 +299,16 @@ Handlebars.registerHelper("groceryGroup", function (group){
       }
       return name;
     }
+});
+
+Handlebars.registerHelper("leftoverColor", function (leftover){
+      if (leftover < 0){
+        return "text-danger";
+      }
+      if (leftover == 0){
+        return "text-secondary";
+      }
+      if (leftover > 0){
+        return "text-primary";
+      }
 });
