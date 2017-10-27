@@ -128,12 +128,12 @@
     {{#unless inFoodplan}}
     <div id="{{id}}" class="recipe-cards">
       <div class="row m-3 p-0 color-profile-{{colorProfile}}">
-        <div class="col-4 px-0 d-flex justify-content-center align-items-center">
+        <div id="plateWrapper" class="col-4 px-0 d-flex justify-content-center align-items-center">
           <div class="plate"></div>
         </div>
         <div class="col py-3">
-          <h3 class="mb-3">{{name}}</h3>
-          <div class="row px-3">
+          <h3 class="m-0">{{name}}</h3>
+          <div id="ingridiensWrapper" class="row px-3 mt-3">
             {{#each ingrediensers}}
             <h5 class="ingridiens d-inline-block m-0 pr-1">{{ingredienseTypes.0.name}}</h5>
             {{/each}}

@@ -50,8 +50,14 @@ function makeFrontpage() {
 
 function beginNewFoodplan(recipeId){
   $("#"+recipeId).siblings().remove();
-  $("#"+recipeId).addClass("compact");
   $("#Carousel").removeClass("d-none");
+
+  $("#"+recipeId).find("#plateWrapper").remove();
+  $("#"+recipeId).find("button").remove();
+  $("#"+recipeId).find("#ingridiensWrapper").remove();
+
+
+
   // MAKE ELEMENT ABSOLUTE
   // var top = $("#"+recipeId).offset().top - $(window).scrollTop();
   // var left = $("#"+recipeId).offset().left;
