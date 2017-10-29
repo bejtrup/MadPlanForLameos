@@ -2,29 +2,67 @@ $h1-font-size: 2rem;
 $h2-font-size: 1.75rem;
 $h3-font-size: 1.3rem;
 $h4-font-size: 1.15rem;
-$h5-font-size: 1rem;
+$h5-font-size: 0.85rem;
 $h6-font-size: .75rem;
 
+$white:  #fff;
+$gray-100: #f8f9fa;
+$gray-200: #e9ecef;
+$gray-300: #dee2e6;
+$gray-400: #ced4da;
+$gray-500: #adb5bd;
 $gray-600: #efefef;
+$gray-700: #495057;
+$gray-800: #343a40;
+$gray-900: #212529;
+$black:  #000;
+
+$blue:    #007bff;
+$indigo:  #6610f2;
+$purple:  #6f42c1;
+$pink:    #FD6D85;
+$red:     #dc3545;
+$orange:  #fd7e14;
+$yellow:  #ffc107;
+$green:   #28a745;
+$teal:    #20c997;
+$cyan:    #17a2b8;
+
+$theme-colors: (
+  primary: $pink,
+  secondary: $gray-600,
+  success: $green,
+  info: $cyan,
+  warning: $yellow,
+  danger: $red,
+  light: $gray-100,
+  dark: $gray-800
+);
 
 @import "Bootstrap/bootstrap.scss";
 
 .btn-circle {
   display: flex !important;
   border: 1px solid transparent;
-  border-radius: 2rem !important;
-  max-width: 2.4rem;
-  width: 2.4rem;
-  min-width: 2.4rem;
-  max-height: 2.4rem;
-  height: 2.4rem;
-  min-height: 2.4rem;
+  border-radius: 1rem !important;
+  max-width: 2rem;
+  width: 2rem;
+  min-width: 2rem;
+  max-height: 2rem;
+  height: 2rem;
+  min-height: 2rem;
   text-align: center;
   align-items: center !important;
   justify-content: center !important;
   margin: 0;
   padding: 0 !important;
   white-space: nowrap !important;
+  span{
+    font-size: 1.5rem;
+  }
+}
+.btn-primary{
+  color: $white;
 }
 
 html, body {
@@ -122,7 +160,6 @@ $i: 1;
 // recipeContainer //
 .recipeContainer{
   padding-top: 6vh;
-  padding-bottom: 12vh;
   // overflow: auto;
   }
   .recipe-cards {
@@ -137,7 +174,7 @@ $i: 1;
 /*:::::SAMMENLIGN-SIDE:::::*/
 .foodplan-build-list{
   height: 1000px;
-
+  transition: transform 0.2s;
   padding-bottom: 15vh;
   &:empty {
     display: none;
@@ -145,14 +182,14 @@ $i: 1;
 }
 
 .carousel{
-  position: absolute;
-  top: 16vh;
-  left: 0;
-  right: 0;
-  height: 30%; /*ikke vh da den i chrome er uden urlbar*/
+  // position: absolute;
+  // top: 16vh;
+  // left: 0;
+  // right: 0;
+  //height: 30%; /*ikke vh da den i chrome er uden urlbar*/
   overflow-x: hidden;
   overflow-y: hidden;
-  z-index: 100;
+  // z-index: 100;
 }
 .carousel--next-prev {
   position: fixed;
@@ -163,26 +200,59 @@ $i: 1;
   background:#efefef;
 }
 
+
 .keypadwrapper {
   position: fixed;
+  top:0;
   left:0;
   right: 0;
   bottom: 0;
   z-index: 200;
-  opacity: 0;
-  transition: transform 0.2s ease-out, opacity 0.2s;
-  transform: translateY(100%);
-  &.up {
-    opacity: 1;
-    transform: translateY(0);
+
+  .amountInput{
+    position: absolute;
+    top:0;
+    left:0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+    z-index: 201;
+        transition: opacity 0.1s;
+    &.show {
+      opacity: 1;
+    }
+    .highlight{
+      background: rgba(254, 110, 134, 0.29);
+    }
+    .AmountInput--Line{
+      height: 28px;
+      width: 2px;
+      background: $pink;
+      animation: blinker 1s cubic-bezier(1, 0, 0, 1) infinite;
+    }
+    @keyframes blinker {
+      50% { opacity: 0; }
+    }
+  }
+  .keypad{
+    position: absolute;
+    left:0;
+    right: 0;
+    bottom: 0;
+    z-index: 202;
+    transition: transform 0.2s ease-out;
+    transform: translateY(100%);
+    &.up {
+      transform: translateY(0);
+    }
   }
 }
 
 
 .plate {
-  width: 100px;
-  height: 100px;
-  border-radius: 50px;
+  width: 85px;
+  height: 85px;
+  border-radius: 43px;
   border: 8px solid #e6e3e3;
   background: #fff;
   box-shadow: 4px 5px 3px rgba(51, 51, 51, 0.12);

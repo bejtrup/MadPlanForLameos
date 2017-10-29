@@ -6,7 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
   <title>Mealzebub</title>
   <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300|Sumana" rel="stylesheet">
-  <link rel="stylesheet" href="Css/font-awesome-4.7.0/css/font-awesome.min.css">
+  <!-- <link rel="stylesheet" href="Css/font-awesome-4.7.0/css/font-awesome.min.css"> -->
+  <link rel="stylesheet" type="text/css" href="Css/fonticons/style.css" />
   <link rel="stylesheet" type="text/css" href="Css/index.min.css?version=2" />
   <link rel="stylesheet" type="text/css" href="./src/slick.css" />
 
@@ -23,35 +24,6 @@
   <script>
   $(document).ready(function(){
     fetchAllRecipes();
-
-    $("#keypad").on("click", ".key", function(){
-      var val = $(this).attr('data-val');
-      console.log(val);
-      if(val == "submit"){
-        $("#keypad").removeClass("up");
-      }
-    });
-
-    // $(window).on("scroll", function(){
-    //   var scrollDist = $(this).scrollTop();
-    //   var topBreakpouin = $(".recipe-cards").offset().top - 50;
-    //     console.log("scrolling "+scrollDist);
-    //     if (scrollDist > topBreakpouin && !$(".recipe-cards").hasClass("compact")){
-    //       $(".recipe-cards").addClass("compact");
-    //       // $('html, body').animate({
-    //       //     scrollTop: 112
-    //       // }, 500);
-    //
-    //     }
-    //     if (scrollDist > 5){
-    //       $(".recipe-cards").removeClass("compact");
-    //       // $('html, body').animate({
-    //       //     scrollTop: 112
-    //       // }, 500);
-    //
-    //     }
-    // });
-
   });
   </script>
 </head>
@@ -63,20 +35,32 @@
       </div>
       <div class="navbar-right"></div>
     </div>
-
     <!-- <div id="foodPlan-Draw" class="foodPlan-draw col-12 pt-5 h-25 bg-light in">
       <div id="foodPlan-Draw-Calendar"></div>
     </div> -->
 
     <div id="RecipeContainer" class="recipeContainer"></div>
 
-    <div id="Foodplan-Build-List" class=foodplan-build-list></div>
-
     <div id="Carousel" class="carousel d-none">
-      <div id="Recipe-List" class="h-100"></div>
+      <div id="Recipe-List" class=""></div>
     </div>
 
-    <div id="keypad" class="keypadwrapper row bg-light">
+    <div id="Foodplan-Build-List" class=foodplan-build-list></div>
+
+    <div id="keypadwrapper"class="keypadwrapper d-none">
+        <div id="AmountInput" class="row d-flex justify-content-center align-content-center pb-5 amountInput bg-white">
+          <div class="col-12 text-center">
+            <h4>Hvor mange har du?</h4>
+            <h2 id="AmountInputName"></h2>
+          </div>
+          <div class="col-12 d-flex justify-content-center align-items-center">
+            <h2 id="AmountInputBulk" class="input m-0 text-right highlight"></h2>
+            <span class="AmountInput--Line mr-2"></span>
+            <h3 id="AmountInputUnit" class="m-0"></h3>
+            <input id="AmountInputIngridiensID" type="hidden" name="" value="">
+          </div>
+        </div>
+    <div id="keypad" class="keypad row bg-light">
         <div data-val="1" class="col-4 text-center py-3 key">
             <h3>1</h3>
         </div>
@@ -105,19 +89,20 @@
             <h3>9</h3>
         </div>
         <div data-val="back" class="col-4 text-center py-3 key">
-            <h3><i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i></h3>
+            <h3><span aria-hidden="true" class="arrow_left"></span></h3>
         </div>
         <div data-val="0" class="col-4 text-center py-3 key">
             <h3>0</h3>
         </div>
         <div data-val="submit" class="col-4 text-center py-3 key">
-            <h3><i class="fa fa-check" aria-hidden="true"></i></h3>
+            <h3><span aria-hidden="true" class="icon_check"></span></h3>
         </div>
+    </div>
     </div>
 
     <div id="CarouselNextPrev" class="row carousel--next-prev d-none">
       <div class="col-6 d-flex align-items-center justify-content-center order-2">
-        <button type="button" name="button" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> Tilføj til plan</button>
+        <button type="button" name="button" class="btn btn-primary"><span aria-hidden="true" class="icon_plus"></span> Tilføj til plan</button>
       </div>
     </div>
 
@@ -127,18 +112,30 @@
     {{#each this}}
     {{#unless inFoodplan}}
     <div id="{{id}}" class="recipe-cards">
-      <div class="row m-3 p-0 color-profile-{{colorProfile}}">
-        <div id="plateWrapper" class="col-4 px-0 d-flex justify-content-center align-items-center">
+      <div class="row recipe-cards--card mx-3 mb-3 mt-0 p-0 color-profile-{{colorProfile}}">
+        <div id="plateWrapper" class="col-3 px-0 d-flex justify-content-end align-items-center">
           <div class="plate"></div>
         </div>
         <div class="col py-3">
-          <h3 class="m-0">{{name}}</h3>
-          <div id="ingridiensWrapper" class="row px-3 mt-3">
+          <div class="row">
+          <h3 class="col pr-0 m-0">{{name}}</h3>
+          <div id="recipe-cards--ingridiens" class="col-12 d-flex align-content-start flex-wrap mt-2">
             {{#each ingrediensers}}
             <h5 class="ingridiens d-inline-block m-0 pr-1">{{ingredienseTypes.0.name}}</h5>
             {{/each}}
           </div>
-          <button class="col btn btn-primary btn-circle ml-auto" onclick="beginNewFoodplan('{{id}}');"><i class="fa fa-plus"></i></button>
+            <div id="recipe-cards--stars" class="col mr-auto text-primary pt-2" style="font-size: 0.8rem;">
+              <span aria-hidden="true" class="icon_star"></span>
+              <span aria-hidden="true" class="icon_star"></span>
+              <span aria-hidden="true" class="icon_star"></span>
+              <span aria-hidden="true" class="icon_star"></span>
+              <span aria-hidden="true" class="icon_star"></span>
+              <span aria-hidden="true" class="icon_star"></span>
+            </div>
+            <div class="col-2 justify-content-end d-flex">
+              <button class="btn btn-primary btn-circle" onclick="beginNewFoodplan('{{id}}');"><span aria-hidden="true" class="icon_plus"></span></button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -148,7 +145,7 @@
 
   <script id="Foodplan-Build" type="text/x-handlebars-template">
         <div class="body col-12">
-          <div class="text-center pt-2">
+          <div class="text-center">
             <h4><b>Ingrediensliste</b></h3>
             </div>
             <div class="row">

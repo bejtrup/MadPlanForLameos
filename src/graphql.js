@@ -4,8 +4,6 @@ var allRecipes = [];
 var foodPlan = [];
 var groceryList =[];
 
-
-
 function fetchAllRecipes() {
   var allRecipesStored = JSON.parse(localStorage.getItem("allRecipes"));
   if(allRecipesStored === null){
@@ -53,8 +51,8 @@ function beginNewFoodplan(recipeId){
   $("#Carousel").removeClass("d-none");
 
   $("#"+recipeId).find("#plateWrapper").remove();
-  $("#"+recipeId).find("button").remove();
-  $("#"+recipeId).find("#ingridiensWrapper").remove();
+  $("#"+recipeId).find("#recipe-cards--stars").remove();
+  $("#"+recipeId).find("#recipe-cards--ingridiens").remove();
 
 
 
@@ -108,19 +106,13 @@ function addToFoodPlan(recipeId){
   foodPlan.push({day: (foodPlan.length + 1), recipieid: allRecipes.allOpskrifts[indexOfId].id, name: allRecipes.allOpskrifts[indexOfId].name, colorProfile: allRecipes.allOpskrifts[indexOfId].colorProfile});
   allRecipes.allOpskrifts[indexOfId].inFoodplan = true;
 
-  // // DRAW
-  // var compiledTemplate = Handlebars.compile( $("#recipe-cards").html() );
-  // var generatedTemplate = compiledTemplate(foodPlan);
-  // $("#foodPlan-Draw-Calendar").html(generatedTemplate);
-
   // MAKE FOODPLAN BUILD LIST
-    // MAKE HEADER FOR INGRIDIENS LIST
-  var compiledTemplate = Handlebars.compile( $("#Foodplan-Build").html() );
-  var generatedTemplate = compiledTemplate(foodPlan);
-  $("#Foodplan-Build-List").html(generatedTemplate);
-    // MAKE THE LIST
-  makeGroseryListTest("groceryList-to-Test", groceryList);
-
+  // MAKE HEADER FOR INGRIDIENS LIST
+       var compiledTemplate = Handlebars.compile( $("#Foodplan-Build").html() );
+       var generatedTemplate = compiledTemplate(foodPlan);
+       $("#Foodplan-Build-List").html(generatedTemplate);
+  //   // MAKE THE LIST
+       makeGroseryListTest("groceryList-to-Test", groceryList);
   // MAKE RECIPES TO TEST
   newOrderArray();
   makeCarouselRecipeCardList();
@@ -197,59 +189,79 @@ function makeCarousel(){
     slidesToShow: 1,
     slidesToScroll: 1,
     mobileFirst: true,
-    // edgeFriction: 1,
-    //arrows: false,
+    adaptiveHeight: true,
     appendArrows: $("#CarouselNextPrev"),
-     prevArrow: '<div class="col d-flex align-items-center justify-content-center order-3 slick-prev"><i class="fa fa-chevron-right" aria-hidden="true"></i></div>',
-     nextArrow: '<div class="col d-flex align-items-center justify-content-center order-1 slick-next"><i class="fa fa-chevron-left" aria-hidden="true"></i></div>'
+    prevArrow: '<div class="col d-flex align-items-center justify-content-center order-3 slick-prev"><h3 class="m-0"><span aria-hidden="true" class="arrow_right"></h3></span></div>',
+    nextArrow: '<div class="col d-flex align-items-center justify-content-center order-1 slick-next"><h3 class="m-0"><span aria-hidden="true" class="arrow_left"></h3></span></div>'
   });
-  $("#Recipe-List .slick-list").addClass("h-100");
-  $("#Recipe-List .slick-track").addClass("h-100");
 
-
-  // $("li#foodplan").removeClass("d-none");
-  // $("#Recipe-List").itemslide({
-  //     //start: 1,
-  //     one_item: true,
-  //     duration: 500,
-  // });
-  // $(window).resize(function () {
-  //       $("#Recipe-List").reload();
-  //
-  //   });
-  // $("#Recipe-List").on('changeActiveIndex', function(e) {
-  //         //console.log( $("#recipe-list").getActiveIndex() );
-  //         var activeId = $("li.itemslide-active").attr("id")
-  //         compareActiveRecipeAndGroceryList(activeId);
-  // });
   $("#Recipe-List").on('afterChange', function(event, slick, currentSlide){
     var activeId = $(this).find("div.slick-active").attr("id")
     compareActiveRecipeAndGroceryList(activeId);
   });
-
 }
 
 function makeBulkPicker(id) {
-  $("#keypad").addClass("up");
-  // var start = parseInt($("#"+id+"-bulkPicker li").text()) - 1 ;
-  // makeBulkPickerNextandPrev($("#"+id+"-bulkPicker li"));
-  // $(".bulkPicker").addClass("d-none"); // make close, and auto pick active
-  // $("#"+id).find(".bulkPicker").removeClass("d-none");
-  //
-  // $("#"+id+"-bulkPicker").itemslide({
-  //     //start: 1,
-  //     one_item: false,
-  //     duration: 500,
-  //     start: start
-  // });
+  $("#keypadwrapper").removeClass("d-none");
+  window.setTimeout(function(){
+     $("#keypad").addClass("up");
+     $("#AmountInput").addClass("show");
+  }, 100);
+  $("#AmountInputIngridiensID").val(id);
+  var index = idInArray(groceryList,id);
+  $("#AmountInputName").text(groceryList[index].name);
+  $("#AmountInputUnit").text(groceryList[index].unit+".");
+  $("#AmountInputBulk").text(groceryList[index].bulk);
+  $("#AmountInputBulk").addClass("highlight");
+  window.setTimeout(function(){
+
+  }, 300);
 }
+$(document).ready(function(){
+  $("#keypad").on("click", ".key", function(){
+    var val = $(this).attr('data-val');
+    if(val == "submit"){
+      var v = $("#AmountInputBulk").text();
+      var AmountInputIngridiensID = $("#AmountInputIngridiensID").val();
+      var index = idInArray(groceryList,AmountInputIngridiensID);
+      groceryList[index].bulk = v;
+
+      var i = $('#Recipe-List').slick('slickCurrentSlide');
+      if(i > 0){
+        var currentRecipieId = $("#Recipe-List").find('.recipe-cards:nth-child('+(i+1)+')').attr("id");
+      } else {
+        var currentRecipieId = $("#RecipeContainer").find(".recipe-cards").attr("id");
+      }
+      compareActiveRecipeAndGroceryList(currentRecipieId);
+      $("#keypad").removeClass("up");
+      $("#AmountInput").removeClass("show");
+      window.setTimeout(function(){
+        $("#keypadwrapper").addClass("d-none");
+      }, 200);
+
+    }
+    else if(val == "back"){
+      var v = $("#AmountInputBulk").text();
+      $("#AmountInputBulk").text(v.slice(0,-1));
+    } else{
+      if($("#AmountInputBulk").hasClass("highlight")){
+        $("#AmountInputBulk").text("");
+        $("#AmountInputBulk").removeClass("highlight");
+        $("#AmountInputBulk").text(val);
+      } else {
+        var v = $("#AmountInputBulk").text();
+        v += val;
+        $("#AmountInputBulk").text(v);
+      }
+    }
+  });
+});
 
 
 // :::::::::::::::::ALKYRITMEN :::::::::::::::::::
 // husk ikke kigge på Basis (+1)
 // huske prioter + rest højt (+3)
 // husk prioter - rest middle (+2)
-
 function newOrderArray(){
   groceryList.forEach(function(item){
     allRecipes.allOpskrifts.forEach(function(recipe){
