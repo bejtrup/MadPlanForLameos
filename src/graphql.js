@@ -129,9 +129,9 @@ function makeGroseryListTest(id, arr){
 }
 
 function compareActiveRecipeAndGroceryList(activeRecipeID){
-  var testGroceryList =[];
-  testGroceryList = JSON.parse(JSON.stringify(groceryList));
-  if(activeRecipeID != undefined){
+    var testGroceryList =[];
+    testGroceryList = JSON.parse(JSON.stringify(groceryList));
+    if(activeRecipeID != undefined && $("#RecipeContainer #"+activeRecipeID).length === 0 ){
       var activeRecipeIndex = idInArray(allRecipes.allOpskrifts, activeRecipeID);
       var persons = 2;
       allRecipes.allOpskrifts[activeRecipeIndex].ingrediensers.forEach(function(ing){
@@ -150,8 +150,9 @@ function compareActiveRecipeAndGroceryList(activeRecipeID){
           testGroceryList.push({ id: ing.ingredienseTypes[0].id, name: ing.ingredienseTypes[0].name, amount:(ing.amount*persons),  unit: ing.ingredienseTypes[0].unitses[0].shorthand, bulk: ing.ingredienseTypes[0].bulk, group: ing.ingredienseTypes[0].group, leftover: leftover, isAddedToList: true});
         }
       });
-  }
-  makeGroseryListTest(activeRecipeID, testGroceryList);
+    }
+    makeGroseryListTest(activeRecipeID, testGroceryList);
+
 }
 
 function makeCarouselRecipeCardList(){
@@ -224,8 +225,10 @@ $(document).ready(function(){
       var v = $("#AmountInputBulk").text();
       var AmountInputIngridiensID = $("#AmountInputIngridiensID").val();
       var index = idInArray(groceryList,AmountInputIngridiensID);
+      var prevBulk = groceryList[index].bulk;
       groceryList[index].bulk = v;
-
+      var prevLeftover = groceryList[index].leftover;
+      groceryList[index].leftover = prevLeftover + (v - prevBulk);
       var i = $('#Recipe-List').slick('slickCurrentSlide');
       if(i > 0){
         var currentRecipieId = $("#Recipe-List").find('.recipe-cards:nth-child('+(i+1)+')').attr("id");
@@ -233,6 +236,7 @@ $(document).ready(function(){
         var currentRecipieId = $("#RecipeContainer").find(".recipe-cards").attr("id");
       }
       compareActiveRecipeAndGroceryList(currentRecipieId);
+
       $("#keypad").removeClass("up");
       $("#AmountInput").removeClass("show");
       window.setTimeout(function(){
@@ -255,9 +259,26 @@ $(document).ready(function(){
       }
     }
   });
+
+  $(document).on("click", ".recipe-cards--card", function (e) {
+    if (!$(e.target).closest(".btn").length ) {
+      showFullRecipe($(this));
+    }
+  });
+
+
 });
 
+function showFullRecipe(elem){
+  elem.closest(".recipe-cards--card").addClass("full");
+  window.setTimeout(function(){
+    //elem.closest(".recipe-cards").siblings().addClass("d-none");
+  }, 300);
 
+}
+$(document).on("click",".navbar-middle",function(){
+  $(".full").removeClass("full");
+});
 // :::::::::::::::::ALKYRITMEN :::::::::::::::::::
 // husk ikke kigge på Basis (+1)
 // huske prioter + rest højt (+3)

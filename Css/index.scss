@@ -1,8 +1,8 @@
 $h1-font-size: 2rem;
 $h2-font-size: 1.75rem;
-$h3-font-size: 1.3rem;
+$h3-font-size: 1.1rem;
 $h4-font-size: 1.15rem;
-$h5-font-size: 0.85rem;
+$h5-font-size: 0.75rem;
 $h6-font-size: .75rem;
 
 $white:  #fff;
@@ -76,9 +76,21 @@ html, body {
   box-sizing: border-box;
 }
 
-h1,h2,h3,h4,h5,h6,p {
-  font-family: 'Open Sans Condensed', sans-serif;
+
+h1,h2,h3,h4,h6,p {
+  // font-family: 'Open Sans Condensed', sans-serif;
+  font-family: 'Open Sans', sans-serif;
+  // font-family: 'Rubik Mono One', sans-serif;
+  // font-family: 'Rubik', sans-serif;
   color: rgba(0, 0, 0, 0.58);
+}
+h3 {
+      font-weight: 600;
+}
+h5 {
+    font-family: 'Merriweather', serif;
+    font-weight: 100;
+    color: rgba(0, 0, 0, 0.45);
 }
 $color-profils:  #F6C8D0, #BAE2DE, #FBC085, #DBE0DC, #c0dbac, #AED0EF, #FCD35B, #8DD1E4, #E1E6E1, #FFEC7B, #A9D66C,#6C845D,#AFB1DF,#F8DB83,#ADD99E;
 
@@ -164,6 +176,55 @@ $i: 1;
   }
   .recipe-cards {
     outline: none;
+    .recipe-cards--card {
+      position: relative;
+      &:before{
+        content: '';
+        position: absolute;
+        border-radius: 50%;
+        top: 0;
+        left: 50%;
+        right: 0;
+        bottom: 0;
+        margin-left: -50px;
+        height: 100px;
+        width: 100px;
+      }
+      &.full{
+        z-index: 7;
+        &:before{
+          background: inherit;
+          transform: scale(20);
+          transition: transform .3s;
+          }
+          .plate{
+            transform: matrix(2.8, 0, 0, 2.8, 133, -109);
+            transition:transform 0.3s cubic-bezier(0.65, 0.05, 0.36, 1);
+          }
+          h3 {
+            transform: matrix(1.3,0,0,1.3,5,80);
+            transition: transform 0.3s;
+          }
+          #recipe-cards--stars{
+            transform: translate(-104px,28px);
+            transition: transform 0.3s;
+          }
+          .btn {
+            transform: translate(10px,32px);
+            transition: transform 0.3s;
+            &:before{
+              content: "Tilføj madplan";
+              position: absolute;
+              right: 36px;
+              color: #fe6e84;
+            }
+          }
+          #recipe-cards--ingridiens{
+            opacity: 0;
+            transition: opacity 0.3s;
+          }
+        }
+      }
     .ingridiens:not(:last-child) {
       &:after {
           content:" •";
@@ -255,5 +316,4 @@ $i: 1;
   border-radius: 43px;
   border: 8px solid #e6e3e3;
   background: #fff;
-  box-shadow: 4px 5px 3px rgba(51, 51, 51, 0.12);
 }
