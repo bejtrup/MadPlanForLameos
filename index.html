@@ -1,85 +1,196 @@
 <!DOCTYPE html>
 
 <html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
-    <title>Mealzebub</title>
-<link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300|Sumana" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="src/index.css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script type="text/javascript" src="./src/itemslide.min.js"></script>
-    <script type="text/javascript" src="./src/handlebars-v4.0.10.js"></script>
-    <script src="./src/graphql.js"></script>
-    <script>
-    $(document).ready(function(){
-      fetchAllRecipes();
-    });
-    </script>
-  </head>
-  <body>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+  <title>Mealzebub</title>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300|Sumana" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Merriweather:300,300i,400,400i,700,700i,900,900i|Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i|Rubik+Mono+One|Rubik:300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="Css/fonticons/style.css" />
+  <link rel="stylesheet" type="text/css" href="Css/index.min.css?version=2" />
+  <link rel="stylesheet" type="text/css" href="./src/slick.css" />
 
-  <div class="body">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+  <script type="text/javascript" src="./src/slick.js"></script>
+
+
+  <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
+  <script type="text/javascript" src="./src/handlebars-v4.0.10.js"></script>
+  <!-- <script type="text/javascript" src="./src/jquery.scrollme.min.js"></script> -->
+  <script type="text/javascript" src="./src/jquery.touchSwipe.min.js"></script>
+  <script src="./src/graphql.js"></script>
+  <script>
+  $(document).ready(function(){
+    fetchAllRecipes();
+  });
+  </script>
+</head>
+<body >
     <div class="navbar">
-      <div class="navbar-left">
-
-      </div>
+      <div class="navbar-left"></div>
       <div class="navbar-middle bavbar-brand">
-          <h1>Mealzebub</h1>
+        <h1>Mealzebub</h1>
       </div>
-      <div class="navbar-right">
+      <div class="navbar-right"></div>
+    </div>
+    <!-- <div id="foodPlan-Draw" class="foodPlan-draw col-12 pt-5 h-25 bg-light in">
+      <div id="foodPlan-Draw-Calendar"></div>
+    </div> -->
 
+    <div id="RecipeContainer" class="recipeContainer"></div>
+
+    <div id="Carousel" class="carousel d-none">
+      <div id="Recipe-List" class=""></div>
+    </div>
+
+    <div id="Foodplan-Build-List" class=foodplan-build-list></div>
+
+    <div id="keypadwrapper"class="keypadwrapper d-none">
+        <div id="AmountInput" class="row d-flex justify-content-center align-content-center pb-5 amountInput bg-white">
+          <div class="col-12 text-center">
+            <h4>Hvor mange har du?</h4>
+            <h2 id="AmountInputName"></h2>
+          </div>
+          <div class="col-12 d-flex justify-content-center align-items-center">
+            <h2 id="AmountInputBulk" class="input m-0 text-right highlight"></h2>
+            <span class="AmountInput--Line mr-2"></span>
+            <h3 id="AmountInputUnit" class="m-0"></h3>
+            <input id="AmountInputIngridiensID" type="hidden" name="" value="">
+          </div>
+        </div>
+    <div id="keypad" class="keypad row bg-light">
+        <div data-val="1" class="col-4 text-center py-3 key">
+            <h3>1</h3>
+        </div>
+        <div data-val="2" class="col-4 text-center py-3 key">
+            <h3>2</h3>
+        </div>
+        <div data-val="3" class="col-4 text-center py-3 key">
+            <h3>3</h3>
+        </div>
+        <div data-val="4" class="col-4 text-center py-3 key">
+            <h3>4</h3>
+        </div>
+        <div data-val="5" class="col-4 text-center py-3 key">
+            <h3>5</h3>
+        </div>
+        <div data-val="6" class="col-4 text-center py-3 key">
+            <h3>6</h3>
+        </div>
+        <div data-val="7" class="col-4 text-center py-3 key">
+            <h3>7</h3>
+        </div>
+        <div data-val="8" class="col-4 text-center py-3 key">
+            <h3>8</h3>
+        </div>
+        <div data-val="9" class="col-4 text-center py-3 key">
+            <h3>9</h3>
+        </div>
+        <div data-val="back" class="col-4 text-center py-3 key">
+            <h3><span aria-hidden="true" class="arrow_left"></span></h3>
+        </div>
+        <div data-val="0" class="col-4 text-center py-3 key">
+            <h3>0</h3>
+        </div>
+        <div data-val="submit" class="col-4 text-center py-3 key">
+            <h3><span aria-hidden="true" class="icon_check"></span></h3>
+        </div>
+    </div>
+    </div>
+
+    <div id="CarouselNextPrev" class="row carousel--next-prev d-none">
+      <div class="col-6 d-flex align-items-center justify-content-center order-2">
+        <button type="button" name="button" class="btn btn-primary"><span aria-hidden="true" class="icon_plus"></span> Tilføj til plan</button>
       </div>
     </div>
-    <div id="Carousel">
-      <ul id="recipe-list" class="recipe-list"></ul>
-    </div>
-  </div>
 
-<script id="previewRecipes" type="text/x-handlebars-template">
-  <li id="foodplan" class="previewRecipe hidden">
-    <div class="previewRecipe-head">
-      <h3>Din aktive mad plan:</h3>
-      {{#each foodPlan}}
-       <h5>dag: {{day}}: {{name}}</h5>
-      {{/each}}
+
+
+  <script id="recipe-cards" type="text/x-handlebars-template">
+    {{#each this}}
+    {{#unless inFoodplan}}
+    <div id="{{id}}" class="recipe-cards">
+      <div class="row recipe-cards--card mx-3 mb-3 mt-0 p-0 color-profile-{{colorProfile}}">
+        <div id="plateWrapper" class="col-3 px-0 d-flex justify-content-end align-items-center">
+          <div class="plate"></div>
+        </div>
+        <div class="col py-3">
+          <div class="row">
+          <h3 class="col pr-0 m-0">{{name}}</h3>
+          <div id="recipe-cards--ingridiens" class="col-12 d-flex align-content-start flex-wrap mt-2">
+            {{#each ingrediensers}}
+            <h5 class="ingridiens d-inline-block m-0 pr-1">{{ingredienseTypes.0.name}}</h5>
+            {{/each}}
+          </div>
+            <div id="recipe-cards--stars" class="col mr-auto text-primary pt-2" style="font-size: 0.8rem;">
+              <span aria-hidden="true" class="icon_star"></span>
+              <span aria-hidden="true" class="icon_star"></span>
+              <span aria-hidden="true" class="icon_star"></span>
+              <span aria-hidden="true" class="icon_star"></span>
+              <span aria-hidden="true" class="icon_star"></span>
+              <span aria-hidden="true" class="icon_star"></span>
+            </div>
+            <div class="col-2 justify-content-end d-flex">
+              <button class="btn btn-primary btn-circle" onclick="beginNewFoodplan('{{id}}');"><span aria-hidden="true" class="icon_plus"></span></button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="grocery-test-list"></div>
-    <div class="previewRecipe-footer">
-      <button onclick="">FÆRDIG</button>
-    </div>
-  </li>
-{{#each 0.allOpskrifts}}
- {{#unless inFoodplan}}
-  <li id="{{id}}" class="previewRecipe color-profile-{{colorProfile}}">
-    <div class="previewRecipe-head">
-      <h2>{{name}}</h3>
-      {{#each ingrediensers}}
-        <p>{{ingredienseTypes.0.name}} </p>
-      {{/each}}
-    </div>
-    <div class="grocery-test-list"></div>
-    <div class="previewRecipe-footer">
-      <button onclick="addToFoodPlan('{{id}}');">VÆLG</button>
-    </div>
-  </li>
-  {{/unless}}
-{{/each}}
-</script>
+    {{/unless}}
+    {{/each}}
+  </script>
+
+  <script id="Foodplan-Build" type="text/x-handlebars-template">
+        <div class="body col-12">
+          <div class="text-center">
+            <h4><b>Ingrediensliste</b></h3>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <h6>Skal bruge</h6>
+              </div>
+              <div class="col-2 px-0">
+                <h6>Har</h6>
+              </div>
+              <div class="col-2">
+                <h6>Rest</h6>
+              </div>
+            </div>
+            <div id="groceryList-to-Test" class="d-flex flex-column"></div>
+        </div>
+  </script>
 
 <script id="groceryListTest" type="text/x-handlebars-template">
-{{#each this}}
-    <h6 class="groceryGroup">{{groceryGroup group}}</h6>
-    <div id="{{id}}" class="groceryListTest {{#if isTested}}isTested{{/if}} {{#if isAddedToList}}isAddedToList{{/if}}">
-        <h3>{{name}}</h3>
-        <h3><span>{{amount}}<span>{{#if bulk}} af {{bulk}}{{/if}} {{unit}}.</h3>
-        <h3>{{#if leftover}}rest: {{leftover}}{{/if}}.</h3>
+  {{#each this}}
+  <!-- <h6>{{groceryGroup group}}</h6> -->
+  <div id="{{id}}" class="row mb-2 {{#unless isAddedToList}}order-1{{/unless}} {{#if isAddedToList}}order-12{{/if}}">
+    <div class="col-2 px-0 d-flex justify-content-end align-items-center">
+      <h5 class="mr-1 m-0">{{amount}}</h5>
+      <h6 class="m-0">{{unit}}.</h6>
     </div>
-{{/each}}
+    <div class="col-4 px-2 d-flex align-items-center">
+      <h5 class="m-0">{{name}}</h5>
+    </div>
+    {{#unless isAddedToList}}
+    <div class="col-2 px-0 d-flex justify-content-start align-items-center">
+      <h5 class="btn btn-secondary btn-circle mr-1" onclick="makeBulkPicker('{{id}}');">{{bulk}}{{#unless bulk}}?{{/unless}}</h5>
+      <h6 class="m-0">{{unit}}.</h6>
+    </div>
+    <div class="col-2 d-flex align-items-center justify-content-end {{leftoverColor leftover}} {{#if isTested}}isTested{{/if}}">
+        <h5 class="m-0 mr-1" style="color: inherit;">{{leftover}}</h5>
+        <h6 class="m-0" style="color: inherit;">{{unit}}.</h6>
+    </div>
+    <div class="col-2 text-right">
+      <div class="btn btn-secondary btn-circle mr-1"><i class="fa fa-check text-light" aria-hidden="true"></i></div>
+    </div>
+    {{/unless}}
+  </div>
+
+  {{/each}}
+  <h6 Class="order-11">Hvis du vælger denne opskrift skal du også bruge</h6>
 </script>
-
-<!-- tilføj gruppe til ingredienseType (som protein, basis, tørvare, mejeri ) -->
-<!-- i alkyritme, hvis der er rest af et fælles ingridiens, så plus 2 -->
-
-  </body>
+</body>
 </html>
