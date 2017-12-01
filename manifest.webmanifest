@@ -1,0 +1,9 @@
+{
+  "name": "Mealzabub",
+  "short_name": "Mealzabub",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#fff",
+  "decription": "madplan",
+  "icons" : [{}]
+}
