@@ -13,7 +13,7 @@ function fetchAllRecipes() {
 
 
   var allRecipesStored = JSON.parse(localStorage.getItem("allRecipes"));
-  if(allRecipesStored === null){
+//if(allRecipesStored === null){
     console.log("Getting Data online");
     $.post({
       url: graphQLEndpoint,
@@ -25,11 +25,11 @@ function fetchAllRecipes() {
       localStorage.setItem("allRecipes", JSON.stringify(allRecipes));
       initPage();
     });
-  } else {
-    allRecipes = allRecipesStored;
-    console.log("from localStorage");
-    initPage();
-  }
+  // } else {
+  //   allRecipes = allRecipesStored;
+  //   console.log("from localStorage");
+  //   initPage();
+  // }
 }
 
 function adsColorProfileToAllRecipes(){
