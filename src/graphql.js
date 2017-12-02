@@ -193,6 +193,9 @@ function makeCarouselRecipeCardList(){
           '</div></div>';
           $("#Recipe-List").html(html);
   $("#Recipe-List").append(generatedTemplate);
+  if(foodPlan.length <= 1){
+    $(document).scrollTop(0);
+  }
 }
 
 function makeFoodplanRecipieCardList(recipeId) {
