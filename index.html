@@ -26,6 +26,13 @@
   <script>
   $(document).ready(function(){
     fetchAllRecipes();
+
+    $("#localStorageClear").click(function(){
+      localStorage.clear();
+      alert("localhost emptyed");
+
+    });
+
   });
   </script>
 </head>
@@ -102,7 +109,7 @@
             </div>
         </div>
     </div>
-
+    <button id ="localStorageClear" type="button" name="button">localStorage Clear</button>
     <div id="CarouselNextPrev" class="row carousel--next-prev d-none">
       <!-- <div class="col-6 d-flex align-items-center justify-content-center order-2">
         <button type="button" name="button" class="btn btn-primary btn-circle"><span aria-hidden="true" class="icon_ul"></span></button>
@@ -177,7 +184,7 @@
         {{#each ingrediensers}}
         <div class="row">
           <div class="col-4 text-right">
-            <h5>{{ingridiensTIMESperson amount}} {{ingredienseTypes.0.unitses.0.shorthand}}  (X per)</h5>
+            <h5>{{ingridiensTIMESperson amount}} {{ingredienseTypes.0.unitses.0.shorthand}}</h5>
           </div>
           <div class="col-8">
             <h5>{{ingredienseTypes.0.name}}</h5>
