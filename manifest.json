@@ -5,8 +5,8 @@
   "background_color": "#fd6d85",
   "display": "standalone",
   "orientation": "portrait",
-  "Scope": "/",
-  "start_url": "/",
+  "Scope": "/MadPlanForLameos/",
+  "start_url": "/MadPlanForLameos/",
   "icons": [
     {
       "src": "images/icons/icon-72x72.png",
