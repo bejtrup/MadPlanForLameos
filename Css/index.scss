@@ -234,12 +234,12 @@ $i: 1;
   }
   .checked {
     background: $gray-100!important;
-      h5,h6 {
-        color: $gray-300!important;
-      }
-      .btn-secondary{
-        background: $gray-100!important;
-      }
+       h5,h6 {
+        opacity: 0.6;
+       }
+      // .btn-secondary{
+      //   background: $gray-100!important;
+      // }
   }
 }
 

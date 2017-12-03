@@ -259,9 +259,20 @@ function makeBulkPicker(id) {
 
   }, 300);
 }
+function closeBulkPicker(){
+  $("#keypad").removeClass("up");
+  $("#AmountInput").removeClass("show");
+  window.setTimeout(function(){
+    $("#keypadwrapper").addClass("d-none");
+  }, 200);
+}
+function markIngridiensAsChecked(id){
+    $("#"+id).addClass("checked");
+    $("#"+id).find("#ingridiensCheckbox").html('<span aria-hidden="true" class="icon_check"></span>');
+}
 
 $(document).ready(function(){
-  $("#keypad").on("click", ".key", function(){
+  $("#keypadwrapper").on("click", ".key", function(){
     var val = $(this).attr('data-val');
     if(val == "submit"){
       var v = $("#AmountInputBulk").text();
@@ -278,13 +289,8 @@ $(document).ready(function(){
         var currentRecipieId = $("#RecipeContainer").find(".recipe-cards").attr("id");
       }
       compareActiveRecipeAndGroceryList(currentRecipieId);
-
-      $("#keypad").removeClass("up");
-      $("#AmountInput").removeClass("show");
-      window.setTimeout(function(){
-        $("#keypadwrapper").addClass("d-none");
-      }, 200);
-
+      markIngridiensAsChecked(AmountInputIngridiensID);
+      closeBulkPicker();
     }
     else if(val == "back"){
       var v = $("#AmountInputBulk").text();
@@ -301,6 +307,8 @@ $(document).ready(function(){
       }
     }
   });
+
+
 
   $(document).on("click", ".recipe-cards--card", function (e) {
     if (!$(e.target).closest(".btn").length ) {
