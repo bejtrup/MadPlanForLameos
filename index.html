@@ -122,7 +122,7 @@
           <div class="row recipe-cards--card mx-3 mb-3 mt-0 px-0 py-3 color-profile-{{colorProfile}}">
               <h3 class="col pr-0 m-0">{{name}}</h3>
                 <div class="col-2 justify-content-end d-flex">
-                  <button class="btn btn-primary btn-circle" onclick="removeFromFoodplan('{{recipieid}}');"><span aria-hidden="true" class="icon_check"></span></button>
+                  <button class="btn btn-primary btn-circle" onclick="removeFromFoodplan('{{recipieid}}');"><span aria-hidden="true" class="icon_close"></span></button>
                 </div>
           </div>
         </div>
@@ -161,8 +161,10 @@
 
   <script id="recipe-cards-full" type="text/x-handlebars-template">
     <div id="recipiedId_{{id}}" class="row mx-0 px-3 recipeFull color-profile-{{colorProfile}}">
-      <div class="col-12 justify-content-end d-flex p-3 mt-4">
-        <button class="btn btn-secondary btn-circle" onclick="hideFullRecipe('{{id}}');"><span aria-hidden="true" class="icon_close"></span></button>
+      <div class="col-12 p-3 mt-4">
+        <button class="btn btn-secondary btn-circle" onclick="hideFullRecipe('{{id}}');">
+          <span aria-hidden="true" class="arrow_carrot-left"></span>
+        </button>
       </div>
       <div class="col-12 justify-content-center">
         <div class="plate mx-auto"></div>
@@ -172,12 +174,18 @@
           {{ratingPlot rating}}
       </div>
       <div class="col-12 justify-content-between d-flex p-3 mt-4">
-        <h4>2 personer</h4>
-        {{#if inFoodplan}}
-        <button class="btn btn-primary btn-circle" onclick="removeFromFoodplan('{{id}}');"><span aria-hidden="true" class="icon_check"></span></button>
-        {{else}}
-        <button class="btn btn-primary btn-circle" onclick="beginNewFoodplan('{{id}}');"><span aria-hidden="true" class="icon_plus"></span></button>
-        {{/if}}
+        <h4>2 <span aria-hidden="true" class="icon_group"></span></h4>
+          {{#if inFoodplan}}
+          <div class="d-flex align-content-center" onclick="removeFromFoodplan('{{id}}');">
+            <h6 class="my-0 py-2 mr-2">Fjern fra madplan</h6>
+            <button class="btn btn-primary btn-circle"><span aria-hidden="true" class="icon_close"></span></button>
+          </div>
+          {{else}}
+          <div class="d-flex align-content-center" onclick="beginNewFoodplan('{{id}}');">
+            <h6 class="my-0 py-2 mr-2">Tilføj til madplan</h6>
+            <button class="btn btn-primary btn-circle"><span aria-hidden="true" class="icon_plus"></span></button>
+          </div>
+          {{/if}}
       </div>
       <div class="col-12">
         <h4>Ingridienser</h4>
@@ -200,28 +208,39 @@
   </script>
 
   <script id="Foodplan-Build" type="text/x-handlebars-template">
-        <div class="body col-12">
-          <div class="text-center">
-            <h4><b>Ingrediensliste</b></h3>
-            </div>
-            <div class="row">
-              <div class="col-6 pl-5">
-                <h6>Skal bruge</h6>
+        <div class="col-12">
+          <!-- <div class="text-center">
+              <h4><b>Ingredienser</b></h3>
+          </div> -->
+
+          <div class="row border border-top-0 mb-2">
+              <div class="col-5 d-flex">
+                <h6 class="mb-1">Du skal bruge </h6>
+                <div class="rotate90 arrowdown">
+                  <h6 class="flipH"><span aria-hidden="true" class="arrow_back"></span></h6>
+                </div>
               </div>
-              <div class="col-2">
-                <h6>Har</h6>
+              <div class="col-3 d-flex">
+                <h6 class="mb-1">Dine rester</h6>
+                <div class="rotate90 arrowdown">
+                  <h6 class="flipH"><span aria-hidden="true" class="arrow_back"></span></h6>
+                </div>
               </div>
-              <div class="col-2 text-center">
-                <h6>Rest</h6>
+              <div class="col-3 px-0 d-flex">
+                <h6 class="mb-1">Hvis du har</h6>
+                <div class="rotate90 arrowdown">
+                  <h6 class="flipH"><span aria-hidden="true" class="arrow_back"></span></h6>
+                </div>
               </div>
-            </div>
-            <div id="groceryList-to-Test" class="d-flex flex-column"></div>
+          </div>
+
+          <div id="groceryList-to-Test" class="d-flex flex-column"></div>
         </div>
   </script>
 
   <script id="groceryListTest" type="text/x-handlebars-template">
     {{#each this}}
-    <div id="{{id}}" class="row mb-2 {{#unless isAddedToList}}order-1{{/unless}} {{#if isAddedToList}}order-12{{/if}}">
+    <div id="{{id}}" onclick="makeBulkPicker('{{id}}');" class="row mb-2 {{#unless isAddedToList}}order-1{{/unless}} {{#if isAddedToList}}order-12{{/if}}">
       <div class="col-2 px-0 d-flex justify-content-end align-items-center">
         <h5 class="mr-1 m-0">{{amount}}</h5>
         <h6 class="m-0">{{unit}}.</h6>
@@ -230,17 +249,22 @@
         <h5 class="m-0">{{name}}</h5>
       </div>
       {{#unless isAddedToList}}
-      <div class="col-2 px-0 d-flex justify-content-start align-items-center">
-        <h5 class="btn btn-secondary btn-circle mr-1" onclick="makeBulkPicker('{{id}}');">{{bulk}}{{#unless bulk}}?{{/unless}}</h5>
+      <div class="col-2 d-flex  justify-content-end align-items-center {{leftoverColor leftover}} {{#if isTested}}isTested{{/if}}">
+        <h5 class="m-0 mr-1" style="color: inherit;">{{leftover}}</h5>
+        <h6 class="m-0" style="color: inherit;">{{unit}}.</h6>
+      </div>
+      <div class="col-4 d-flex justify-content-end align-items-center">
+        <h5 class="m-0 mr-1">{{bulk}}{{#unless bulk}}?{{/unless}}</h5>
         <h6 class="m-0">{{unit}}.</h6>
+        <h5 class="btn btn-circle border ml-2 iconPlusMinus">
+          <span aria-hidden="true" class="icon_plus"></span>
+          <span aria-hidden="true" class="icon_minus-06"></span>
+        </h5>
       </div>
-      <div class="col-2 d-flex align-items-center justify-content-end {{leftoverColor leftover}} {{#if isTested}}isTested{{/if}}">
-          <h5 class="m-0 mr-1" style="color: inherit;">{{leftover}}</h5>
-          <h6 class="m-0" style="color: inherit;">{{unit}}.</h6>
-      </div>
-      <div class="col-2 text-right">
-        <div class="btn btn-secondary btn-circle mr-1" onclick="checkIngridiens('{{id}}')"><span aria-hidden="true" class="icon_check"></span></div>
-      </div>
+
+      <!-- <div class="col-2 text-right">
+        <div class="btn btn-secondary btn-circle mr-1" onclick="checkIngridiens('{{id}}')"><span aria-hidden="true" class="icon_close"></span></div>
+      </div> -->
       {{/unless}}
     </div>
     {{/each}}

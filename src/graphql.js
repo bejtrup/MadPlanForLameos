@@ -147,6 +147,7 @@ function removeFromFoodplan(recipeId){
   } else{
     makeFrontpage();
   }
+  hideFullRecipe(recipeId);
 }
 
 function makeGroseryListTest(id, arr){

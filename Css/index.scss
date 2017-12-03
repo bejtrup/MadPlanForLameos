@@ -312,3 +312,36 @@ $i: 1;
   border: 8px solid #e6e3e3;
   background: #fff;
 }
+.flipH {
+  moz-transform: scale(-1, 1);
+  -webkit-transform: scale(-1, 1);
+  -o-transform: scale(-1, 1);
+  -ms-transform: scale(-1, 1);
+  transform: scale(-1, 1);
+}
+.rotate90{
+  moz-transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+.arrowdown{
+  width: 8px;
+}
+.iconPlusMinus{
+  position: relative;
+  span{
+    position: absolute;
+    font-size: 1rem;
+    color: #edf0f2;
+  }
+  .icon_plus{
+    top: 0.1rem;
+    left: 0.1rem;
+  }
+  .icon_minus-06{
+    bottom: 0.1rem;
+    right: 0.1rem;
+  }
+}
