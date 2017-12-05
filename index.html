@@ -246,7 +246,7 @@
 
   <script id="groceryListTest" type="text/x-handlebars-template">
     {{#each this}}
-    <div id="{{id}}" onclick="makeBulkPicker('{{id}}');" class="row mb-2 {{#unless isAddedToList}}order-1{{/unless}} {{#if isAddedToList}}order-12{{/if}}">
+    <div id="{{id}}" onclick="makeBulkPicker('{{id}}');" class="row mb-2 {{#unless isAddedToList}}order-1{{/unless}} {{#if isAddedToList}}order-12{{/if}} {{#if checked}}checked{{/if}}">
       <div class="col-2 px-0 d-flex justify-content-end align-items-center">
         <h5 class="mr-1 m-0">{{amount}}</h5>
         <h6 class="m-0">{{unit}}.</h6>
@@ -263,14 +263,14 @@
         <h5 class="m-0 mr-1">{{bulk}}{{#unless bulk}}?{{/unless}}</h5>
         <h6 class="m-0">{{unit}}.</h6>
         <h4 id="ingridiensCheckbox" class="btn btn-circle border ml-2 iconPlusMinus">
+          {{#if checked}}
+          <span aria-hidden="true" class="icon_check"></span>
+          {{else}}
           <span aria-hidden="true" class="icon_plus"></span>
           <span aria-hidden="true" class="icon_minus-06"></span>
+          {{/if}}
         </h5>
       </div>
-
-      <!-- <div class="col-2 text-right">
-        <div class="btn btn-secondary btn-circle mr-1" onclick="checkIngridiens('{{id}}')"><span aria-hidden="true" class="icon_close"></span></div>
-      </div> -->
       {{/unless}}
     </div>
     {{/each}}
