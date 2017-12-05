@@ -36,7 +36,7 @@ $theme-colors: (
   warning: $yellow,
   danger: $red,
   light: $gray-100,
-  dark: $gray-800
+  dark: $gray-500
 );
 
 @import "Bootstrap/bootstrap.scss";
@@ -331,17 +331,14 @@ $i: 1;
 }
 .iconPlusMinus{
   position: relative;
-  span{
+  .icon_plus,.icon_minus-06{
     position: absolute;
     font-size: 1rem;
-    color: #edf0f2;
   }
   .icon_plus{
     top: 0.1rem;
-    left: 0.1rem;
   }
   .icon_minus-06{
     bottom: 0.1rem;
-    right: 0.1rem;
   }
 }
