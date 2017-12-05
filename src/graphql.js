@@ -1,7 +1,7 @@
 var graphQLEndpoint = 'https://api.graph.cool/simple/v1/cj7jflnup02bp0138ccetefib';
 var userId = "cj7mziq54j6q301057e4go5yg";
 var allRecipes = [];
-var foodPlan = [];
+var foodPlan =  JSON.parse(localStorage.getItem("foodplan")) || [];
 var groceryList = JSON.parse(localStorage.getItem("groceryList")) || [];
 var groceryListIsChecked = [];
 
@@ -45,10 +45,8 @@ function adsColorProfileToAllRecipes(){
 
 function initPage(){
   var urlHash = window.location.hash.substr(1);
-  var foodPlanStored = JSON.parse(localStorage.getItem("foodplan"));
 
-  if (foodPlanStored && foodPlanStored.length > 0){
-    foodPlan = foodPlanStored;
+  if (foodPlan.length > 0){
     makeBuildPage();
   }
   else if (urlHash == "recipe" ){
