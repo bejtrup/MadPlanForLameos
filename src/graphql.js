@@ -2,7 +2,8 @@ var graphQLEndpoint = 'https://api.graph.cool/simple/v1/cj7jflnup02bp0138ccetefi
 var userId = "cj7mziq54j6q301057e4go5yg";
 var allRecipes = [];
 var foodPlan = [];
-var groceryList =[];
+var groceryList = JSON.parse(localStorage.getItem("groceryList")) || [];
+var groceryListIsChecked = [];
 
 function fetchAllRecipes() {
   // var arr = arrAll.data;
@@ -89,6 +90,10 @@ function addToFoodPlan(recipeId){
     // MAKE GROCERYLIST
     var indexOfId = idInArray(allRecipes.allOpskrifts, recipeId);
     var persons = 2;
+    var isAnygroceryListIsChecked = false;
+    if(groceryList.length == 0) {
+      isAnygroceryListIsChecked = true;
+    }
     allRecipes.allOpskrifts[indexOfId].ingrediensers.forEach(function (v) {
        var indexOfgros = idInArray(groceryList, v.ingredienseTypes[0].id);
        if(indexOfgros >= 0){
@@ -103,7 +108,18 @@ function addToFoodPlan(recipeId){
          var leftover = v.ingredienseTypes[0].bulk - (v.amount*persons)
          groceryList.push({id: v.ingredienseTypes[0].id, name: v.ingredienseTypes[0].name, amount: (v.amount*persons), unit: v.ingredienseTypes[0].unitses[0].shorthand, bulk: v.ingredienseTypes[0].bulk, group: v.ingredienseTypes[0].group, leftover: leftover });
        }
+       if(isAnygroceryListIsChecked){
+         groceryListIsChecked.forEach(function(k){
+
+           if( k.id == v.ingredienseTypes[0].id){
+             groceryList[idInArray(groceryList, v.ingredienseTypes[0].id)].checked = true;
+             groceryList[idInArray(groceryList, v.ingredienseTypes[0].id)].bulk = k.bulk;
+           }
+         });
+       }
+
     });
+    //localStorage.setItem("groceryList", JSON.stringify(groceryList));
 
     allRecipes.allOpskrifts[indexOfId].inFoodplan = true;
     var a = JSON.parse(localStorage.getItem("foodplan")) || [];
@@ -141,10 +157,17 @@ function removeFromFoodplan(recipeId){
   // REMOVE FROM LOCALHOST (update localhost )
   localStorage.setItem("foodplan", JSON.stringify(foodPlan));
   // REMOVE INGRIDIENS FROM groceryList AND RERUN makeGroseryListTest()
+
+  groceryListIsChecked = groceryList.filter(function(k){
+    return k.checked == true
+  });
   groceryList = [];
+
   if(foodPlan.length > 0 ){
     makeBuildPage();
   } else{
+    groceryListIsChecked = [];
+    localStorage.setItem("groceryList", JSON.stringify(groceryList));
     makeFrontpage();
   }
   hideFullRecipe(recipeId);
@@ -269,6 +292,8 @@ function closeBulkPicker(){
 function markIngridiensAsChecked(id){
     $("#"+id).addClass("checked");
     $("#"+id).find("#ingridiensCheckbox").html('<span aria-hidden="true" class="icon_check"></span>');
+    var index = idInArray(groceryList,id);
+    groceryList[index].checked = true;
 }
 
 $(document).ready(function(){
@@ -290,6 +315,7 @@ $(document).ready(function(){
       }
       compareActiveRecipeAndGroceryList(currentRecipieId);
       markIngridiensAsChecked(AmountInputIngridiensID);
+      localStorage.setItem("groceryList", JSON.stringify(groceryList));
       closeBulkPicker();
     }
     else if(val == "back"){
@@ -331,10 +357,6 @@ function showFullRecipe(elem){
 
 function hideFullRecipe(id){
   $("#recipiedId_"+id).remove();
-}
-
-function checkIngridiens(id){
-  $("#"+id).toggleClass("checked");
 }
 
 // :::::::::::::::::ALKYRITMEN :::::::::::::::::::
